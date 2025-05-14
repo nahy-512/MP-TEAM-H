@@ -1,12 +1,17 @@
 package com.nahyun.mz
 
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.nahyun.mz.databinding.ActivityMainBinding
 import com.nahyun.mz.ui.base.BaseActivity
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
-    val name = "Mobile Programming"
 
     override fun setup() {
-        binding.name = name
+        initNavigation()
+    }
+
+    private fun initNavigation() {
+        NavigationUI.setupWithNavController(binding.mainNavBar, findNavController(R.id.main_nav_host))
     }
 }
