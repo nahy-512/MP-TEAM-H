@@ -23,6 +23,35 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.quiz.OldGenActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.quiz.PostDetailActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.quiz.AllMemesActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.quiz.AllExploreActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.quiz.MZQuizIntroActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.quiz.MZQuizActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.quiz.MZQuizResultActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

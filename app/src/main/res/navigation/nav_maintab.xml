@@ -33,4 +33,5 @@
         android:label="TrendFragment"
         tools:layout="@layout/fragment_trend"/>
 
+
 </navigation>
