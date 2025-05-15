@@ -4,4 +4,9 @@
     <string name="menu_quiz">밈 퀴즈</string>
     <string name="menu_discussion">토론방</string>
     <string name="menu_trend">소비 트랜드</string>
+
+    <!-- 로그인 -->
+    <string name="login">로그인</string>
+    <string name="id_hint">아이디를 입력해주세요.</string>
+    <string name="pwd_hint">비밀번호를 입력해주세요.</string>
 </resources>
