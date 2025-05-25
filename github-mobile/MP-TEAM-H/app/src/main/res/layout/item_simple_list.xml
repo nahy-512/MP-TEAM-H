@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="#FFFFFF"
+        android:elevation="2dp"
+        android:clipToPadding="false">
+
+        <!-- 순위 + 브랜드/아이템명 -->
+        <TextView
+            android:id="@+id/itemText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1. 클리오 - 마스카라"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <!-- 변화량 (예: ▲ 5개) -->
+        <TextView
+            android:id="@+id/itemChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="▲ 5개"
+            android:textSize="12sp"
+            android:textColor="#FF3B30"
+            android:layout_marginTop="2dp" />
+
+        <!-- 총 소비량 (예: 총 소비: 8회 (3월 3회 → 4월 5회)) -->
+        <TextView
+            android:id="@+id/itemTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="총 소비: 8회 (3월 3회 → 4월 5회)"
+            android:textSize="12sp"
+            android:textColor="#333333"
+            android:layout_marginTop="2dp" />
+
+        <!-- 카테고리 내 비중 -->
+        <TextView
+            android:id="@+id/itemRatio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="카테고리 내 비중: 12%"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:layout_marginTop="2dp" />
+
+        <!-- 구글에서 검색 -->
+        <TextView
+            android:id="@+id/itemLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="구글에서 검색 → "
+            android:textSize="12sp"
+            android:textColor="#3366CC"
+            android:layout_marginTop="2dp"
+            android:textStyle="italic" />
+    </LinearLayout>
+</layout>
