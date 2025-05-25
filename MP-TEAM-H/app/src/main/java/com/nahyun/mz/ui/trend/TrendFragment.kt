@@ -72,10 +72,15 @@ class TrendFragment : BaseFragment<FragmentTrendBinding>(R.layout.fragment_trend
                     val marchCount = marchMap.getOrDefault(name, 0)
 
                     val rate = if (marchCount == 0) 100 else ((aprilCount - (marchCount-10) * 50) / marchCount)
-                    val rateText = when {
-                        rate > 0 -> "▲ $rate%"
-                        rate < 0 -> "▼ ${-rate}%"
-                        else -> ""
+
+                    val rateText = if (rate >= 100) {
+                        "" // ✅ 100% 이상은 표시 안 함
+                    } else {
+                        when {
+                            rate > 0 -> "▲ $rate%"
+                            rate < 0 -> "▼ ${-rate}%"
+                            else -> ""
+                        }
                     }
                     val rateColor = when {
                         rate > 0 -> Color.parseColor("#FF3B30") // 빨강

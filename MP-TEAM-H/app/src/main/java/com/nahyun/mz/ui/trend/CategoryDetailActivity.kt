@@ -77,12 +77,15 @@ class CategoryDetailActivity : AppCompatActivity() {
                     diff < 0 -> "▼ ${-diff}개"
                     else -> ""
                 }
+                // ✅ diff가 ±100이면 숨김 처리
+                val visibleChangeText = if (kotlin.math.abs(diff) == 100) "" else changeText
 
                 val color = when {
                     diff > 0 -> "#FF3B30"
                     diff < 0 -> "#007AFF"
                     else -> "#34C759"
                 }
+                val html = "<font color='$color'>$visibleChangeText</font>"
 
                 Triple(key, changeText, color)
             }.sortedByDescending { (key, _, _) -> aprilMap.getOrDefault(key, 0) }
