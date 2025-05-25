@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_maintab"
+    app:startDestination="@id/translatorFragment">
+
+    <!-- Translator -->
+    <fragment
+        android:id="@+id/translatorFragment"
+        android:name="com.nahyun.mz.ui.translator.TranslatorFragment"
+        android:label="TranslatorFragment"
+        tools:layout="@layout/fragment_translator"/>
+
+    <!-- Quiz -->
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.nahyun.mz.ui.quiz.QuizFragment"
+        android:label="QuizFragment"
+        tools:layout="@layout/fragment_quiz"/>
+
+    <!-- Discussion -->
+    <fragment
+        android:id="@+id/discussionFragment"
+        android:name="com.nahyun.mz.ui.discussion.DiscussionFragment"
+        android:label="DiscussionFragment"
+        tools:layout="@layout/fragment_discussion"/>
+
+    <!-- Trend -->
+    <fragment
+        android:id="@+id/trendFragment"
+        android:name="com.nahyun.mz.ui.trend.TrendFragment"
+        android:label="TrendFragment"
+        tools:layout="@layout/fragment_trend"/>
+
+
+</navigation>

@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MZ" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- 버튼 스타일 재정의 -->
+        <item name="materialButtonStyle">@style/Widget.App.Button</item>
+        <item name="buttonStyle">@style/Widget.App.Button</item>
+    </style>
+
+    <style name="Theme.MZ" parent="Base.Theme.MZ" />
+
+    <!-- 커스텀 버튼 스타일 정의 -->
+    <style name="Widget.App.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@null</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:textAppearance">@null</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
+</resources>
