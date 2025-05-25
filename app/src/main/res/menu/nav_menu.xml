@@ -2,13 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- 번역기를 첫 번째로 이동 -->
     <item
         android:id="@+id/translatorFragment"
-        android:icon="@drawable/ic_translator"
-        android:title="번역기"
+        android:icon="@drawable/ic_nav_translator"
+        android:title="@string/menu_translator"
         android:enabled="true"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/quizFragment"
@@ -30,5 +29,4 @@
         android:title="@string/menu_trend"
         android:enabled="true"
         app:showAsAction="always"/>
-
 </menu>

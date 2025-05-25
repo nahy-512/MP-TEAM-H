@@ -5,43 +5,33 @@
     android:id="@+id/nav_maintab"
     app:startDestination="@id/translatorFragment">
 
-    <!-- Translator (첫 번째 탭) -->
+    <!-- Translator -->
     <fragment
         android:id="@+id/translatorFragment"
         android:name="com.nahyun.mz.ui.translator.TranslatorFragment"
         android:label="TranslatorFragment"
-        tools:layout="@layout/fragment_translator">
-        <action
-            android:id="@+id/action_translatorFragment_to_favoriteWordsFragment"
-            app:destination="@id/favoriteWordsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_translator"/>
 
-    <!-- Quiz (두 번째 탭) -->
+    <!-- Quiz -->
     <fragment
         android:id="@+id/quizFragment"
         android:name="com.nahyun.mz.ui.quiz.QuizFragment"
         android:label="QuizFragment"
         tools:layout="@layout/fragment_quiz"/>
 
-    <!-- Discussion (세 번째 탭) -->
+    <!-- Discussion -->
     <fragment
         android:id="@+id/discussionFragment"
         android:name="com.nahyun.mz.ui.discussion.DiscussionFragment"
         android:label="DiscussionFragment"
         tools:layout="@layout/fragment_discussion"/>
 
-    <!-- Trend (네 번째 탭) -->
+    <!-- Trend -->
     <fragment
         android:id="@+id/trendFragment"
         android:name="com.nahyun.mz.ui.trend.TrendFragment"
         android:label="TrendFragment"
         tools:layout="@layout/fragment_trend"/>
 
-    <!-- 즐겨찾기 화면 (탭에 표시되지 않음) -->
-    <fragment
-        android:id="@+id/favoriteWordsFragment"
-        android:name="com.nahyun.mz.ui.translator.FavoriteWordsFragment"
-        android:label="즐겨찾기"
-        tools:layout="@layout/fragment_favorite_words" />
 
 </navigation>
