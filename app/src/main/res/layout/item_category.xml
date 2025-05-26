@@ -39,7 +39,7 @@
             android:id="@+id/categoryBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="20dp"
             android:max="100"
             android:progress="0"
             android:progressTint="#9A45F6"
