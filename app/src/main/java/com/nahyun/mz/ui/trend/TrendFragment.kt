@@ -1,5 +1,6 @@
 package com.nahyun.mz.ui.trend
 
+<<<<<<< HEAD
 import android.content.Intent
 import android.graphics.Color
 import android.util.Log
@@ -10,12 +11,15 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+=======
+>>>>>>> origin/develop
 import com.nahyun.mz.R
 import com.nahyun.mz.databinding.FragmentTrendBinding
 import com.nahyun.mz.ui.base.BaseFragment
 
 class TrendFragment : BaseFragment<FragmentTrendBinding>(R.layout.fragment_trend) {
 
+<<<<<<< HEAD
     private var selectedGender = "female"
 
     override fun setup() {
@@ -135,3 +139,9 @@ class TrendFragment : BaseFragment<FragmentTrendBinding>(R.layout.fragment_trend
         }
     }
 }
+=======
+    override fun setup() {
+        // 뷰 초기화, ClickListener 정의 등 작업 진행
+    }
+}
+>>>>>>> origin/develop
