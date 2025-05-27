@@ -1,24 +1,13 @@
 package com.nahyun.mz.ui.translator
 
-<<<<<<< HEAD
-import com.nahyun.mz.R
-=======
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.nahyun.mz.R
 import com.nahyun.mz.data.Word
->>>>>>> origin/develop
 import com.nahyun.mz.databinding.FragmentTranslatorBinding
 import com.nahyun.mz.ui.base.BaseFragment
 
 class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.fragment_translator) {
-
-<<<<<<< HEAD
-    override fun setup() {
-        // 뷰 초기화, ClickListener 정의 등 작업 진행
-=======
     private val viewModel: TranslatorViewModel by viewModels()
     private var isFavorite = false
 
@@ -83,6 +72,5 @@ class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.frag
             if (isFavorite) R.drawable.ic_star_filled
             else R.drawable.ic_star_outline
         )
->>>>>>> origin/develop
     }
 }
