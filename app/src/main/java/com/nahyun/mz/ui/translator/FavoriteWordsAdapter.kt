@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.nahyun.mz.data.Word
+import com.nahyun.mz.domain.model.Word
 import com.nahyun.mz.databinding.ItemFavoriteWordBinding
 
 class FavoriteWordsAdapter(private val onRemoveClick: (Word) -> Unit) :
