@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nahyun.mz.data.Word
-import com.nahyun.mz.data.repository.WordRepository
+import com.nahyun.mz.domain.model.Word
+import com.nahyun.mz.domain.repository.WordRepository
 import kotlinx.coroutines.launch
 
 class TranslatorViewModel : ViewModel() {

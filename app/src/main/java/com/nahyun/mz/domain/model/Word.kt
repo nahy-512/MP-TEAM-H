@@ -1,4 +1,4 @@
-package com.nahyun.mz.data
+package com.nahyun.mz.domain.model
 
 data class Word(
     val word: String,

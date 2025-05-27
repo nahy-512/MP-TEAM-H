@@ -3,7 +3,7 @@ package com.nahyun.mz.ui.translator
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.nahyun.mz.R
-import com.nahyun.mz.data.Word
+import com.nahyun.mz.domain.model.Word
 import com.nahyun.mz.databinding.FragmentTranslatorBinding
 import com.nahyun.mz.ui.base.BaseFragment
 

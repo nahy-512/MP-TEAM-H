@@ -1,6 +1,6 @@
-package com.nahyun.mz.data.repository
+package com.nahyun.mz.domain.repository
 
-import com.nahyun.mz.data.Word
+import com.nahyun.mz.domain.model.Word
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
