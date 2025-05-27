@@ -1,7 +1,5 @@
 package com.nahyun.mz.ui.translator
 
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.nahyun.mz.R
@@ -10,7 +8,6 @@ import com.nahyun.mz.databinding.FragmentTranslatorBinding
 import com.nahyun.mz.ui.base.BaseFragment
 
 class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.fragment_translator) {
-
     private val viewModel: TranslatorViewModel by viewModels()
     private var isFavorite = false
 
