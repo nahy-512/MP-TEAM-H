@@ -72,7 +72,7 @@
                             tools:text="100"
                             android:textSize="12sp"
                             android:textColor="@color/like"
-                            app:contentPadding="2dp"/>
+                            android:drawablePadding="2dp"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/item_post_comment_tv"
@@ -84,7 +84,7 @@
                             tools:text="10"
                             android:textSize="12sp"
                             android:textColor="@color/comment"
-                            app:contentPadding="2dp"/>
+                            android:drawablePadding="2dp"/>
                     </LinearLayout>
 
                     <View

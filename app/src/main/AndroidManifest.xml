@@ -36,6 +36,10 @@
         <activity android:name=".ui.quiz.MZQuizActivity" android:exported="false" />
         <activity android:name=".ui.quiz.MZQuizResultActivity" android:exported="false" />
 
+        <!-- 토론방 관련 화면 -->
+        <activity android:name=".ui.discussion.DiscussionDetailActivity"
+            android:windowSoftInputMode="adjustResize"/>
+
         <!-- 트렌드 화면 관련 추가 -->
         <activity android:name=".ui.trend.CategoryDetailActivity" android:exported="false" />
 

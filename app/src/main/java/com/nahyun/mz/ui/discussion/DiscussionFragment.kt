@@ -1,12 +1,12 @@
 package com.nahyun.mz.ui.discussion
 
 import android.content.Intent
-import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nahyun.mz.R
 import com.nahyun.mz.databinding.FragmentDiscussionBinding
 import com.nahyun.mz.ui.base.BaseFragment
+import com.nahyun.mz.ui.discussion.adapter.DiscussionPostAdapter
 
 class DiscussionFragment : BaseFragment<FragmentDiscussionBinding>(R.layout.fragment_discussion) {
 
@@ -29,8 +29,12 @@ class DiscussionFragment : BaseFragment<FragmentDiscussionBinding>(R.layout.frag
         }
         initObserves()
         postAdapter.setPostClickListener(object: DiscussionPostAdapter.MyItemClickListener {
-            override fun onItemClick(routeId: Int) { // 아이템 전체 클릭
-                //TODO: 포스트 상세보기
+            override fun onItemClick(position: Int) { // 아이템 전체 클릭
+                val intent = Intent(requireActivity(), DiscussionDetailActivity::class.java)
+                    .putExtra(
+                        POST_KEY, viewModel.postList[position]
+                    )
+                startActivity(intent)
             }
         })
     }
@@ -44,5 +48,9 @@ class DiscussionFragment : BaseFragment<FragmentDiscussionBinding>(R.layout.frag
 //                postAdapter.addPost(postList)
 //            }
 //        }
+    }
+
+    companion object {
+        const val POST_KEY = "post_key"
     }
 }

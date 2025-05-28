@@ -1,4 +1,4 @@
-package com.nahyun.mz.ui.discussion
+package com.nahyun.mz.ui.discussion.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -39,7 +39,7 @@ class DiscussionPostAdapter: RecyclerView.Adapter<DiscussionPostAdapter.ViewHold
         holder.apply {
             // 아이템 전체 클릭
             itemView.setOnClickListener {
-                mItemClickListener.onItemClick(postList[position].id.toInt())
+                mItemClickListener.onItemClick(position)
             }
         }
     }
