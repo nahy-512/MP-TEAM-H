@@ -1,5 +1,6 @@
 package com.nahyun.mz.ui.translator
 
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.nahyun.mz.R
@@ -8,7 +9,7 @@ import com.nahyun.mz.databinding.FragmentTranslatorBinding
 import com.nahyun.mz.ui.base.BaseFragment
 
 class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.fragment_translator) {
-    private val viewModel: TranslatorViewModel by viewModels()
+    private val viewModel: TranslatorViewModel by activityViewModels()
     private var isFavorite = false
 
     override fun setup() {

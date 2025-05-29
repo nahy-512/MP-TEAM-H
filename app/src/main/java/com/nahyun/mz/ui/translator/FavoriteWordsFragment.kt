@@ -2,6 +2,7 @@ package com.nahyun.mz.ui.translator
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,7 +12,7 @@ import com.nahyun.mz.ui.base.BaseFragment
 
 class FavoriteWordsFragment : BaseFragment<FragmentFavoriteWordsBinding>(R.layout.fragment_favorite_words) {
 
-    private val viewModel: TranslatorViewModel by viewModels()
+    private val viewModel: TranslatorViewModel by activityViewModels()
     private lateinit var adapter: FavoriteWordsAdapter
 
     override fun setup() {
