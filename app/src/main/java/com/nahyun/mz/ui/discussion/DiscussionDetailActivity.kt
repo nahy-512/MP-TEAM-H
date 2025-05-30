@@ -8,6 +8,7 @@ import com.nahyun.mz.R
 import com.nahyun.mz.databinding.ActivityDiscussionDetailBinding
 import com.nahyun.mz.domain.model.Post
 import com.nahyun.mz.ui.base.BaseActivity
+import com.nahyun.mz.ui.discussion.DiscussionDetailViewModel.Companion.USER_ID
 import com.nahyun.mz.ui.discussion.DiscussionFragment.Companion.POST_KEY
 import com.nahyun.mz.ui.discussion.adapter.DiscussionCommentAdapter
 
@@ -47,9 +48,20 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
             layoutManager = LinearLayoutManager(context)
         }
         commentAdapter.setCommentClickListener(object: DiscussionCommentAdapter.MyItemClickListener {
-            override fun onLikeClick(routeId: Int) {
-                Toast.makeText(this@DiscussionDetailActivity, "이 댓글을 공감하였습니다.", Toast.LENGTH_SHORT).show()
-                //TODO: 댓글 좋아요 개수 증가
+            override fun onLikeClick(position: Int) {
+                val comment = viewModel.commentList.value!![position]
+                if (comment.userId == USER_ID) { // 작성자가 나일 때
+                    Toast.makeText(this@DiscussionDetailActivity, "내가 쓴 댓글은 공감할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                    return
+                }
+
+                if (!comment.isLike) {
+                    Toast.makeText(this@DiscussionDetailActivity, "이 댓글을 공감하였습니다.", Toast.LENGTH_SHORT).show()
+                    viewModel.toggleCommentLike(position)
+                } else {
+                    Toast.makeText(this@DiscussionDetailActivity, "이미 공감한 댓글입니다.", Toast.LENGTH_SHORT).show()
+                    return
+                }
             }
         })
     }

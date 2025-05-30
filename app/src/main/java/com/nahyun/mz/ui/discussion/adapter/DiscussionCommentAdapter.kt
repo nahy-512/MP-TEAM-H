@@ -40,7 +40,7 @@ class DiscussionCommentAdapter(
         holder.bind(commentList[position])
         holder.apply {
             binding.itemCommentLikeBtn.setOnClickListener {
-                mItemClickListener.onLikeClick(commentList[position].commentId.toInt())
+                mItemClickListener.onLikeClick(position)
             }
         }
     }

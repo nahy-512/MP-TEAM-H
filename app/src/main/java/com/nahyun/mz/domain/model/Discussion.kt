@@ -28,5 +28,6 @@ data class Comment(
     val userId: Int = 0,
     val nickname: String,
     val profileImageUrl: String?,
+    val isLike: Boolean = false,
     val likeCount: Int = 3
 )

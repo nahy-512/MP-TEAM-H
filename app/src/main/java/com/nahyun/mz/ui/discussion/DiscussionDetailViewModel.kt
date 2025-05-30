@@ -97,6 +97,7 @@ class DiscussionDetailViewModel : ViewModel() {
                                 nickname = user.nickname,
                                 profileImageUrl = user.profileUrl,
                                 likeCount = block["likeCount"]?.toString()?.toInt() ?: 0,
+                                isLike = block["isLike"] as? Boolean == true
                             )
                         )
                     }
@@ -105,6 +106,7 @@ class DiscussionDetailViewModel : ViewModel() {
             }
     }
 
+    // 댓글 추가
     private fun addComment(postId: Long, userId: Int, content: String) {
         val commentMap = mapOf(
             "userId" to db.collection(USER_DB).document(userId.toString()),
@@ -124,6 +126,46 @@ class DiscussionDetailViewModel : ViewModel() {
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "댓글 추가 실패", e)
+            }
+    }
+
+    fun toggleCommentLike(position: Int) {
+        val docRef = db.collection(COMMENT_DB).document(post.id.toString())
+
+        db.runTransaction { transaction ->
+            // 문서 스냅샷 가져오기
+            val snapshot = transaction.get(docRef)
+
+            // comments 필드 읽어서 MutableList로 변환
+            @Suppress("UNCHECKED_CAST")
+            val comments = snapshot.get("comments") as? List<Map<String, Any>> ?: emptyList()
+            val mutableComments = comments.map { it.toMutableMap() }.toMutableList()
+
+            // 클릭된 댓글 데이터 꺼내기
+            val comment = mutableComments[position]
+
+            // 기존 값 읽기
+            val currentIsLike = comment["isLike"] as? Boolean == true
+            val currentCount = (comment["likeCount"] as? Number)?.toInt() ?: 0
+
+            // 토글 후 값 설정
+            val newIsLike = !currentIsLike
+            comment["isLike"] = newIsLike
+            comment["likeCount"] = if (newIsLike) currentCount + 1 else currentCount - 1
+
+            // 다시 리스트에 넣고 업데이트
+            mutableComments[position] = comment
+            transaction.update(docRef, "comments", mutableComments)
+            // 트랜잭션 블록은 Unit(빈 값) 반환
+            null
+        }
+            .addOnSuccessListener {
+                Log.d(TAG, "댓글 좋아요 토글 성공")
+                // 로컬 리스트도 갱신하거나, getComments(postId)를 호출해서 UI 리프레시
+                getComments(post.id)
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "댓글 좋아요 토글 실패", e)
             }
     }
 
