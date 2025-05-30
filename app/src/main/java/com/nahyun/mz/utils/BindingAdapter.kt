@@ -37,6 +37,18 @@ object BindingAdapter {
     }
 
     @JvmStatic
+    @BindingAdapter("profileImage")
+    fun loadProfileImage(view: ImageView, imageUrl: String?) {
+        val defaultImage = R.drawable.ic_profile_default
+        Glide.with(view)
+            .load(imageUrl)
+            .placeholder(defaultImage)
+            .error(defaultImage)
+            .fallback(defaultImage)
+            .into(view)
+    }
+
+    @JvmStatic
     @BindingAdapter("imageUrl")
     fun loadImage(view: ImageView, imageUrl: String?) {
         val defaultImage = R.color.tint

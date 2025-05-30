@@ -41,7 +41,6 @@ class DiscussionFragment : BaseFragment<FragmentDiscussionBinding>(R.layout.frag
     }
 
     private fun initObserves() {
-//        postAdapter.addPost(viewModel.postList.value ?: emptyList())
         // postList를 관찰하여 리사이클러뷰 아이템에 추가
         viewModel.postList.observe(viewLifecycleOwner) { postList ->
             Log.d("DiscussionFg", "postList: $postList")

@@ -10,9 +10,16 @@ data class Discussion(
     val imageUrl: String?,
     val likeCount: Int,
     val commentCount: Int,
+    val authorId: Int,
     val author: String,
     val createdAt: LocalDateTime
-): Serializable
+): Serializable {
+    fun getAuthor(userList: List<User>): User? {
+        return userList.find {
+            it.id.toLong() == this.id
+        }
+    }
+}
 
 data class Comment(
     val commentId: Int = 0,

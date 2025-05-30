@@ -17,6 +17,7 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
 
     override fun setup() {
         viewModel.post = intent.getSerializableExtra(POST_KEY) as Discussion
+        viewModel.getUsers() // 유저 정보 불러오기
         initClickListeners()
         setAdapter()
     }
@@ -28,6 +29,7 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
             post = viewModel.post
             lifecycleOwner = this@DiscussionDetailActivity
         }
+        initObserves()
     }
 
     private fun initClickListeners() {
@@ -42,7 +44,6 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
             adapter = commentAdapter
             layoutManager = LinearLayoutManager(context)
         }
-        initObserves()
         commentAdapter.setCommentClickListener(object: DiscussionCommentAdapter.MyItemClickListener {
             override fun onLikeClick(routeId: Int) {
                 Toast.makeText(this@DiscussionDetailActivity, "이 댓글을 공감하였습니다.", Toast.LENGTH_SHORT).show()
@@ -52,6 +53,12 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
     }
 
     private fun initObserves() {
+        viewModel.userList.observe(this) {
+            if (it.isNotEmpty()) {
+                binding.author = viewModel.getAuthorProfile()
+            }
+        }
+
         commentAdapter.addComment(viewModel.commentList)
     }
 }

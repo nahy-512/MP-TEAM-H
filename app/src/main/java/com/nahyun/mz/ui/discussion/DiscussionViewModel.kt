@@ -4,18 +4,22 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.nahyun.mz.domain.model.Discussion
 import com.nahyun.mz.utils.TimeConverter
+import kotlinx.coroutines.launch
 
 class DiscussionViewModel : ViewModel() {
     private val _postList = MutableLiveData<List<Discussion>>(listOf())
     val postList: LiveData<List<Discussion>> = _postList
 
     init {
-        getPostList()
+        viewModelScope.launch {
+            getPostList()
+        }
     }
 
     private fun getPostList() {
@@ -36,6 +40,7 @@ class DiscussionViewModel : ViewModel() {
                             imageUrl = data["imageUrl"] as String?,
                             likeCount = data["likeCount"].toString().toInt(),
                             commentCount = data["commentCount"].toString().toInt(),
+                            authorId = data["userId"].toString().toInt(),
                             author = data["author"].toString(),
                             createdAt = TimeConverter.parseTimeStampToLocalDateTime(data["createdAt"] as Timestamp),
                         )
