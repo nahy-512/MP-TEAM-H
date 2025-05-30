@@ -17,7 +17,7 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
 
     override fun setup() {
         viewModel.post = intent.getSerializableExtra(POST_KEY) as Post
-        viewModel.getUsers() // 유저 정보 불러오기
+        viewModel.fetchData()
         initClickListeners()
         setAdapter()
     }
@@ -59,6 +59,10 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
             }
         }
 
-        commentAdapter.addComment(viewModel.commentList)
+        viewModel.commentList.observe(this) {
+            if (it.isNotEmpty()) {
+                commentAdapter.addComment(it)
+            }
+        }
     }
 }

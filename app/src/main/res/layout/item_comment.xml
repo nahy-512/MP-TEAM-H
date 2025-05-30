@@ -34,7 +34,8 @@
                 <ImageView
                     android:id="@+id/item_comment_profile_iv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    profileImage="@{comment.profileImageUrl}"/>
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -91,7 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="@{comment.content}"
+                    formattedDate="@{comment.createdAt}"
                     android:textColor="@color/hint"
                     android:textSize="12sp"
                     tools:text="5/12 18:30"/>

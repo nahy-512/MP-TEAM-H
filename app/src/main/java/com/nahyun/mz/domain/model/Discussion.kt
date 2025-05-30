@@ -23,9 +23,9 @@ data class Post(
 
 data class Comment(
     val commentId: Int = 0,
-    val content: String = "댓글 내용",
-    val createAt: String = "5/12 18:30",
-    val nickname: String = "닉네임",
-    val profileImageUrl: String = "",
+    val content: String,
+    val createdAt: LocalDateTime,
+    val nickname: String,
+    val profileImageUrl: String?,
     val likeCount: Int = 3
 )
