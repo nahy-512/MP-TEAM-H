@@ -1,7 +1,6 @@
 package com.nahyun.mz.ui.discussion
 
 import android.util.Log
-import android.util.Log.e
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -82,7 +81,7 @@ class DiscussionDetailViewModel : ViewModel() {
                                 createdAt = TimeConverter.parseTimeStampToLocalDateTime(block["createdAt"] as Timestamp),
                                 nickname = user.nickname,
                                 profileImageUrl = user.profileUrl,
-                                likeCount = block["likeCount"].toString().toInt(),
+                                likeCount = block["likeCount"]?.toString()?.toInt() ?: 0,
                             )
                         )
                     }
