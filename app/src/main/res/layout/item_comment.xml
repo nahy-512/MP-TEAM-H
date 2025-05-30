@@ -6,6 +6,9 @@
     <data>
         <import type="android.view.View"/>
         <variable
+            name="isAuthor"
+            type="Boolean" />
+        <variable
             name="comment"
             type="com.nahyun.mz.domain.model.Comment"/>
     </data>
@@ -44,8 +47,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_gravity="center_vertical"
-                android:text="@{comment.nickname}"
-                android:textColor="@color/black"
+                originalText="@{comment.nickname}"
+                isAuthor="@{isAuthor}"
+                android:textColor="@{isAuthor ? @color/main : @color/black}"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 tools:text="닉네임"

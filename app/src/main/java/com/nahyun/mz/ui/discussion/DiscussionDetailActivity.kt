@@ -41,7 +41,7 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
     }
 
     private fun setAdapter() {
-        commentAdapter = DiscussionCommentAdapter()
+        commentAdapter = DiscussionCommentAdapter(viewModel.post.authorId)
         binding.postCommentRv.apply {
             adapter = commentAdapter
             layoutManager = LinearLayoutManager(context)

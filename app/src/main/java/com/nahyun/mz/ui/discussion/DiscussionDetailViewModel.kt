@@ -93,6 +93,7 @@ class DiscussionDetailViewModel : ViewModel() {
                             Comment(
                                 content = block["body"].toString(),
                                 createdAt = TimeConverter.parseTimeStampToLocalDateTime(block["createdAt"] as Timestamp),
+                                userId = userId,
                                 nickname = user.nickname,
                                 profileImageUrl = user.profileUrl,
                                 likeCount = block["likeCount"]?.toString()?.toInt() ?: 0,

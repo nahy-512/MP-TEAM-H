@@ -25,6 +25,7 @@ data class Comment(
     val commentId: Int = 0,
     val content: String,
     val createdAt: LocalDateTime,
+    val userId: Int = 0,
     val nickname: String,
     val profileImageUrl: String?,
     val likeCount: Int = 3

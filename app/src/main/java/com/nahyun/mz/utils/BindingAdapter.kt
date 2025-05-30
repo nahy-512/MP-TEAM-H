@@ -37,6 +37,12 @@ object BindingAdapter {
     }
 
     @JvmStatic
+    @BindingAdapter("originalText", "isAuthor")
+    fun authorText(textView: TextView, originalText: String, isAuthor: Boolean) {
+        textView.text = if (!isAuthor) originalText else "$originalText (글쓴이)"
+    }
+
+    @JvmStatic
     @BindingAdapter("profileImage")
     fun loadProfileImage(view: ImageView, imageUrl: String?) {
         val defaultImage = R.drawable.ic_profile_default

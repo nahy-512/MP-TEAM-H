@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nahyun.mz.databinding.ItemCommentBinding
 import com.nahyun.mz.domain.model.Comment
 
-class DiscussionCommentAdapter: RecyclerView.Adapter<DiscussionCommentAdapter.ViewHolder>(){
+class DiscussionCommentAdapter(
+    val postAuthorId: Int
+): RecyclerView.Adapter<DiscussionCommentAdapter.ViewHolder>(){
 
     private var commentList = emptyList<Comment>()
     private lateinit var mItemClickListener: MyItemClickListener
@@ -48,6 +50,7 @@ class DiscussionCommentAdapter: RecyclerView.Adapter<DiscussionCommentAdapter.Vi
     inner class ViewHolder(val binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(comment: Comment) {
             binding.comment = comment
+            binding.isAuthor = (comment.userId == postAuthorId)
         }
     }
 }
