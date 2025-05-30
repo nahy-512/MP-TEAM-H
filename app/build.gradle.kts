@@ -57,16 +57,19 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.14.2")
+
     implementation(libs.bundles.navigation)
     // Room Database
     // implementation(libs.androidx.room.runtime)
     // implementation(libs.androidx.room.ktx)
     // kapt(libs.androidx.room.compiler)
 
-// ViewModel & LiveData
+    // ViewModel & LiveData
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
-// Coroutines
+    // Coroutines
     implementation(libs.kotlinx.coroutines.android)
 }

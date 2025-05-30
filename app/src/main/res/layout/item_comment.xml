@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_gravity="center_vertical"
-                android:text="@{comment.userNickname}"
+                android:text="@{comment.nickname}"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"

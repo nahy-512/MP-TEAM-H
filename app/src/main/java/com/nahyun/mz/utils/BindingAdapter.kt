@@ -1,7 +1,10 @@
 package com.nahyun.mz.utils
 
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
+import com.nahyun.mz.R
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -31,5 +34,17 @@ object BindingAdapter {
     @BindingAdapter("formattedDate")
     fun getFormattedDate(textView: TextView, date: LocalDateTime) {
         textView.text = date.format(DateTimeFormatter.ofPattern(FULL_DATE_PATTERN))
+    }
+
+    @JvmStatic
+    @BindingAdapter("imageUrl")
+    fun loadImage(view: ImageView, imageUrl: String?) {
+        val defaultImage = R.color.tint
+        Glide.with(view)
+            .load(imageUrl)
+            .placeholder(defaultImage)
+            .error(defaultImage)
+            .fallback(defaultImage)
+            .into(view)
     }
 }

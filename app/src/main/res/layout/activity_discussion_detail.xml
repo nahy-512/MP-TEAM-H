@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="토론방"
+                android:text="@string/discussion_title"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -72,7 +72,7 @@
                         android:id="@+id/writer_profile_iv"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        tools:src="@color/background"/>
+                        tools:src="@drawable/ic_profile_default"/>
 
                 </androidx.cardview.widget.CardView>
 
@@ -136,16 +136,13 @@
                     android:textSize="12sp"
                     tools:text="내용"/>
 
-                <androidx.recyclerview.widget.RecyclerView
+                <ImageView
                     android:id="@+id/image_rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_marginTop="25dp"
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/item_post_image"/>
+                    android:visibility="@{post.imageUrl.empty ? View.GONE : View.VISIBLE}"
+                    imageUrl="@{post.imageUrl}"/>
 
             </LinearLayout>
 
@@ -189,13 +186,14 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/post_comment_rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="12dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="5"
             tools:listitem="@layout/item_comment"
-            app:layout_constraintTop_toBottomOf="@id/post_content_container"/>
+            app:layout_constraintTop_toBottomOf="@id/post_content_container"
+            app:layout_constraintBottom_toTopOf="@id/comment_input_ll"/>
 
         <View
             android:layout_width="match_parent"

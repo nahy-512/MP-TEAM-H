@@ -33,7 +33,7 @@ class DiscussionViewModel : ViewModel() {
                             id = document.id.toString().toLong(),
                             title = data["title"].toString(),
                             content = data["content"].toString(),
-                            image = data["imageUrl"].toString(),
+                            imageUrl = data["imageUrl"] as String?,
                             likeCount = data["likeCount"].toString().toInt(),
                             commentCount = data["commentCount"].toString().toInt(),
                             author = data["author"].toString(),
