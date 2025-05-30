@@ -10,7 +10,13 @@ import com.google.firebase.ktx.Firebase
 import com.nahyun.mz.databinding.ActivityCategoryDetailBinding
 import com.nahyun.mz.R
 
-
+data class TempItem(
+    val key: String,
+    val change: String,
+    val color: String,
+    val march: Int,
+    val april: Int
+)
 
 class CategoryDetailActivity : AppCompatActivity() {
 
@@ -53,6 +59,7 @@ class CategoryDetailActivity : AppCompatActivity() {
                 val brand = doc.getString("brand") ?: continue
                 val item = doc.getString("item") ?: continue
                 val key = "$brand - $item"
+                Log.d("DEBUG_KEY", "3월 key = $key")
                 marchMap[key] = marchMap.getOrDefault(key, 0) + 1
             }
             aprilTask
@@ -61,13 +68,14 @@ class CategoryDetailActivity : AppCompatActivity() {
                 val brand = doc.getString("brand") ?: continue
                 val item = doc.getString("item") ?: continue
                 val key = "$brand - $item"
+                Log.d("DEBUG_KEY", "4월 key = $key")
                 aprilMap[key] = aprilMap.getOrDefault(key, 0) + 1
             }
 
             val allKeys = (marchMap.keys + aprilMap.keys).toSet()
             val aprilTotal = aprilMap.values.sum()
 
-            val resultList = allKeys.map { key ->
+            val tempList = allKeys.map { key ->
                 val march = marchMap.getOrDefault(key, 0)
                 val april = aprilMap.getOrDefault(key, 0)
                 val diff = april - march
@@ -77,7 +85,7 @@ class CategoryDetailActivity : AppCompatActivity() {
                     diff < 0 -> "▼ ${-diff}개"
                     else -> ""
                 }
-                // ✅ diff가 ±100이면 숨김 처리
+
                 val visibleChangeText = if (kotlin.math.abs(diff) == 100) "" else changeText
 
                 val color = when {
@@ -85,31 +93,27 @@ class CategoryDetailActivity : AppCompatActivity() {
                     diff < 0 -> "#007AFF"
                     else -> "#34C759"
                 }
-                val html = "<font color='$color'>$visibleChangeText</font>"
 
-                Triple(key, changeText, color)
-            }.sortedByDescending { (key, _, _) -> aprilMap.getOrDefault(key, 0) }
+                TempItem(key, visibleChangeText, color, march, april)
+            }.sortedByDescending { it.april }
                 .take(5)
-                .mapIndexed { index, (key, change, color) ->
-                    val march = marchMap.getOrDefault(key, 0)
-                    val april = aprilMap.getOrDefault(key, 0)
-                    val total = march + april
 
-                    val totalText = "총 소비: ${total}회 (3월 ${march}회 → 4월 ${april}회)"
-                    val ratioPercent = if (aprilTotal == 0) 0 else (april * 100) / aprilTotal
-                    val ratioText = "카테고리 내 비중: ${ratioPercent}%"
+            val resultList = tempList.mapIndexed { index, item ->
+                val total = item.march + item.april
+                val totalText = "총 소비: ${total}회 (3월 ${item.march}회 → 4월 ${item.april}회)"
+                val ratioPercent = if (aprilTotal == 0) 0 else (item.april * 100) / aprilTotal
+                val ratioText = "카테고리 내 비중: ${ratioPercent}%"
+                val rank = "${index + 1}. ${item.key}"
+                val html = "<font color='${item.color}'>${item.change}</font>"
 
-                    val rank = "${index + 1}. $key"
-                    val html = "<font color='$color'>$change</font>"
-
-                    ItemInfo(
-                        name = rank,
-                        change = android.text.Html.fromHtml(html).toString(),
-                        total = totalText,
-                        ratio = ratioText,
-                        query = key
-                    )
-                }
+                ItemInfo(
+                    name = rank,
+                    change = android.text.Html.fromHtml(html).toString(),
+                    total = totalText,
+                    ratio = ratioText,
+                    query = item.key
+                )
+            }
 
             itemList.clear()
             itemList.addAll(resultList)

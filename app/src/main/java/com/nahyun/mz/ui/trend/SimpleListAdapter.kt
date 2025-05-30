@@ -23,6 +23,8 @@ class SimpleListAdapter(private val items: List<ItemInfo>) :
         fun bind(item: ItemInfo) {
             binding.itemText.text = item.name
             binding.itemChange.text = item.change
+            binding.itemTotal.text = item.total       // ✅ 총 소비량 표시
+            binding.itemRatio.text = item.ratio
 
             // 🔍 클릭 시 구글 검색
             binding.root.setOnClickListener {
