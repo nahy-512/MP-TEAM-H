@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="post"
-            type="com.nahyun.mz.domain.model.Discussion" />
+            type="com.nahyun.mz.domain.model.Post" />
     </data>
 
     <LinearLayout

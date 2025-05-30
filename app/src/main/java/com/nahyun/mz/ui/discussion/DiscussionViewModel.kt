@@ -8,13 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.nahyun.mz.domain.model.Discussion
+import com.nahyun.mz.domain.model.Post
 import com.nahyun.mz.utils.TimeConverter
 import kotlinx.coroutines.launch
 
 class DiscussionViewModel : ViewModel() {
-    private val _postList = MutableLiveData<List<Discussion>>(listOf())
-    val postList: LiveData<List<Discussion>> = _postList
+    private val _postList = MutableLiveData<List<Post>>(listOf())
+    val postList: LiveData<List<Post>> = _postList
 
     init {
         viewModelScope.launch {
@@ -24,7 +24,7 @@ class DiscussionViewModel : ViewModel() {
 
     private fun getPostList() {
         val db = Firebase.firestore
-        val tempPostList = mutableListOf<Discussion>()
+        val tempPostList = mutableListOf<Post>()
 
         db.collection(POST_DB)
             .get()
@@ -33,7 +33,7 @@ class DiscussionViewModel : ViewModel() {
                     Log.d(TAG, "${document.id} => ${document.data}")
                     val data = document.data
                     tempPostList.add(
-                        Discussion(
+                        Post(
                             id = document.id.toString().toLong(),
                             title = data["title"].toString(),
                             content = data["content"].toString(),

@@ -8,14 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.nahyun.mz.domain.model.Comment
-import com.nahyun.mz.domain.model.Discussion
+import com.nahyun.mz.domain.model.Post
 import com.nahyun.mz.domain.model.User
 import kotlinx.coroutines.launch
 
 class DiscussionDetailViewModel : ViewModel() {
     val db = Firebase.firestore
 
-    lateinit var post: Discussion // 게시글 정보
+    lateinit var post: Post // 게시글 정보
 
     private val _userList = MutableLiveData<List<User>>(listOf())
     val userList: LiveData<List<User>> = _userList

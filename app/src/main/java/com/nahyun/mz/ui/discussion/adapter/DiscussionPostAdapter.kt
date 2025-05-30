@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nahyun.mz.databinding.ItemDiscussionPostBinding
-import com.nahyun.mz.domain.model.Discussion
+import com.nahyun.mz.domain.model.Post
 
 class DiscussionPostAdapter: RecyclerView.Adapter<DiscussionPostAdapter.ViewHolder>(){
 
-    private var postList = emptyList<Discussion>()
+    private var postList = emptyList<Post>()
     private lateinit var mItemClickListener: MyItemClickListener
 
     fun setPostClickListener(itemClickListener: MyItemClickListener) {
@@ -17,7 +17,7 @@ class DiscussionPostAdapter: RecyclerView.Adapter<DiscussionPostAdapter.ViewHold
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addPost(postList: List<Discussion>) {
+    fun addPost(postList: List<Post>) {
         this.postList = postList
         notifyDataSetChanged()
     }
@@ -47,7 +47,7 @@ class DiscussionPostAdapter: RecyclerView.Adapter<DiscussionPostAdapter.ViewHold
     override fun getItemCount(): Int = postList.size
 
     inner class ViewHolder(val binding: ItemDiscussionPostBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(post: Discussion) {
+        fun bind(post: Post) {
             binding.post = post
         }
     }

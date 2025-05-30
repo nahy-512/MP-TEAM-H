@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nahyun.mz.R
 import com.nahyun.mz.databinding.ActivityDiscussionDetailBinding
-import com.nahyun.mz.domain.model.Discussion
+import com.nahyun.mz.domain.model.Post
 import com.nahyun.mz.ui.base.BaseActivity
 import com.nahyun.mz.ui.discussion.DiscussionFragment.Companion.POST_KEY
 import com.nahyun.mz.ui.discussion.adapter.DiscussionCommentAdapter
@@ -16,7 +16,7 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
     private val viewModel: DiscussionDetailViewModel by viewModels()
 
     override fun setup() {
-        viewModel.post = intent.getSerializableExtra(POST_KEY) as Discussion
+        viewModel.post = intent.getSerializableExtra(POST_KEY) as Post
         viewModel.getUsers() // 유저 정보 불러오기
         initClickListeners()
         setAdapter()

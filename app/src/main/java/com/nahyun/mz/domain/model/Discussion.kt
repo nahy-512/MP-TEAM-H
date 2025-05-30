@@ -3,7 +3,7 @@ package com.nahyun.mz.domain.model
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class Discussion(
+data class Post(
     val id: Long,
     val title: String,
     val content: String,
