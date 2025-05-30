@@ -4,9 +4,12 @@
 
     <data>
         <import type="android.view.View"/>
-<!--        <variable-->
-<!--            name="viewModel"-->
-<!--            type="com.nahyun.mz.ui.discussion.DiscussionDetailViewModel" />-->
+        <variable
+            name="method"
+            type="com.nahyun.mz.ui.discussion.DiscussionDetailActivity" />
+        <variable
+            name="viewModel"
+            type="com.nahyun.mz.ui.discussion.DiscussionDetailViewModel" />
         <variable
             name="author"
             type="com.nahyun.mz.domain.model.User" />
@@ -241,6 +244,7 @@
                 android:focusableInTouchMode="true"
                 android:textSize="14sp"
                 android:background="@color/transparent"
+                android:text="@={viewModel.commentText}"
                 android:hint="@string/comment_hint"
                 android:textColorHint="@color/hint"/>
 
@@ -248,6 +252,7 @@
                 android:id="@+id/comment_send_iv"
                 android:layout_width="34dp"
                 android:layout_height="34dp"
+                android:onClick="@{() -> viewModel.postComment()}"
                 android:src="@drawable/ic_comment_send"/>
 
         </LinearLayout>

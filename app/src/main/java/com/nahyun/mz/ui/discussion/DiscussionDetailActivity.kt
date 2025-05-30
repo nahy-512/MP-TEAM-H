@@ -1,5 +1,6 @@
 package com.nahyun.mz.ui.discussion
 
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +27,8 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
         super.onStart()
 
         binding.apply {
-            post = viewModel.post
+            viewModel = this@DiscussionDetailActivity.viewModel
+            post = this@DiscussionDetailActivity.viewModel.post
             lifecycleOwner = this@DiscussionDetailActivity
         }
         initObserves()
@@ -64,5 +66,14 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
                 commentAdapter.addComment(it)
             }
         }
+
+        viewModel.postSuccess.observe(this) { isSuccess ->
+            hideKeyboard()
+        }
+    }
+
+    private fun hideKeyboard() {
+        val imm = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.commentInputEt.windowToken, 0)
     }
 }
