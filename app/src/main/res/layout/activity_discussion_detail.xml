@@ -43,163 +43,174 @@
                 android:textSize="18sp" />
         </LinearLayout>
 
-        <!-- 본문 -->
-        <LinearLayout
-            android:id="@+id/post_content_container"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/discussion_detail_header">
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/discussion_detail_header"
+            app:layout_constraintBottom_toTopOf="@id/comment_input_ll">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/writer_cl"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
-                android:paddingHorizontal="25dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/writer_profile_cv"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="14dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" >
-
-                    <ImageView
-                        android:id="@+id/writer_profile_iv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        tools:src="@drawable/ic_profile_default"/>
-
-                </androidx.cardview.widget.CardView>
-
+                <!-- 본문 -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/post_content_container"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
                     android:orientation="vertical"
-                    app:layout_constraintStart_toEndOf="@id/writer_profile_cv"
-                    app:layout_constraintTop_toTopOf="@id/writer_profile_cv"
-                    app:layout_constraintBottom_toBottomOf="@id/writer_profile_cv">
+                    android:background="@color/white">
 
-                    <TextView
-                        android:id="@+id/nickname_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{post.author}"
-                        android:textSize="12sp"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        tools:text="사용자 이름"/>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/writer_cl"
+                        android:layout_width="match_parent"
+                        android:layout_height="75dp"
+                        android:paddingHorizontal="25dp">
 
-                    <TextView
-                        android:id="@+id/time_tv"
-                        android:layout_width="wrap_content"
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/writer_profile_cv"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            app:cardElevation="0dp"
+                            app:cardCornerRadius="14dp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" >
+
+                            <ImageView
+                                android:id="@+id/writer_profile_iv"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                tools:src="@drawable/ic_profile_default"/>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:orientation="vertical"
+                            app:layout_constraintStart_toEndOf="@id/writer_profile_cv"
+                            app:layout_constraintTop_toTopOf="@id/writer_profile_cv"
+                            app:layout_constraintBottom_toBottomOf="@id/writer_profile_cv">
+
+                            <TextView
+                                android:id="@+id/nickname_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{post.author}"
+                                android:textSize="12sp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                tools:text="사용자 이름"/>
+
+                            <TextView
+                                android:id="@+id/time_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                formattedDate="@{post.createdAt}"
+                                tools:text="2일 전"
+                                android:textSize="12sp"
+                                android:textColor="@color/hint"/>
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <LinearLayout
+                        android:id="@+id/content_ll"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        formattedDate="@{post.createdAt}"
-                        tools:text="2일 전"
-                        android:textSize="12sp"
-                        android:textColor="@color/hint"/>
+                        android:layout_marginTop="12dp"
+                        android:layout_marginHorizontal="25dp"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/writer_cl">
+
+                        <TextView
+                            android:id="@+id/item_post_title_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{post.title}"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:text="제목"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@{post.content}"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            tools:text="내용"/>
+
+                        <ImageView
+                            android:id="@+id/image_rv"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:layout_marginTop="25dp"
+                            android:visibility="@{post.imageUrl.empty ? View.GONE : View.VISIBLE}"
+                            imageUrl="@{post.imageUrl}"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/content_ll"
+                        android:layout_marginTop="22dp"
+                        android:paddingHorizontal="22dp"
+                        android:paddingVertical="12dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/post_like_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:drawableStart="@drawable/ic_like"
+                            android:visibility="@{post.likeCount > 0 ? View.VISIBLE : View.GONE}"
+                            android:text="@{@string/post_like_count(post.likeCount)}"
+                            tools:text="공감 1"
+                            android:textSize="12sp"
+                            android:textColor="@color/like"
+                            android:drawablePadding="2dp"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/post_comment_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_comment"
+                            android:visibility="@{post.commentCount > 0 ? View.VISIBLE : View.GONE}"
+                            android:text="@{@string/post_like_count(post.commentCount)}"
+                            tools:text="댓글 2"
+                            android:textSize="12sp"
+                            android:textColor="@color/comment"
+                            android:drawablePadding="2dp"/>
+                    </LinearLayout>
 
                 </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <LinearLayout
-                android:id="@+id/content_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginHorizontal="25dp"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/writer_cl">
-
-                <TextView
-                    android:id="@+id/item_post_title_tv"
+                <!-- 댓글 -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/post_comment_rv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{post.title}"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    tools:text="제목"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@{post.content}"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    tools:text="내용"/>
-
-                <ImageView
-                    android:id="@+id/image_rv"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="25dp"
-                    android:visibility="@{post.imageUrl.empty ? View.GONE : View.VISIBLE}"
-                    imageUrl="@{post.imageUrl}"/>
-
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_comment"/>
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/content_ll"
-                android:layout_marginTop="22dp"
-                android:paddingHorizontal="22dp"
-                android:paddingVertical="12dp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/post_like_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:drawableStart="@drawable/ic_like"
-                    android:visibility="@{post.likeCount > 0 ? View.VISIBLE : View.GONE}"
-                    android:text="@{@string/post_like_count(post.likeCount)}"
-                    tools:text="공감 1"
-                    android:textSize="12sp"
-                    android:textColor="@color/like"
-                    android:drawablePadding="2dp"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/post_comment_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_comment"
-                    android:visibility="@{post.commentCount > 0 ? View.VISIBLE : View.GONE}"
-                    android:text="@{@string/post_like_count(post.commentCount)}"
-                    tools:text="댓글 2"
-                    android:textSize="12sp"
-                    android:textColor="@color/comment"
-                    android:drawablePadding="2dp"/>
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- 댓글 -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/post_comment_rv"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="12dp"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="5"
-            tools:listitem="@layout/item_comment"
-            app:layout_constraintTop_toBottomOf="@id/post_content_container"
-            app:layout_constraintBottom_toTopOf="@id/comment_input_ll"/>
+        </ScrollView>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:paddingHorizontal="-13dp"
-            android:background="#D9D9D9"
+            android:background="@color/tint"
             app:layout_constraintBottom_toTopOf="@id/comment_input_ll"/>
 
         <!-- 댓글 입력 -->
