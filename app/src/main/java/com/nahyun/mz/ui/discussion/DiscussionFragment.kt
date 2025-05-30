@@ -1,6 +1,7 @@
 package com.nahyun.mz.ui.discussion
 
 import android.content.Intent
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nahyun.mz.R
@@ -32,7 +33,7 @@ class DiscussionFragment : BaseFragment<FragmentDiscussionBinding>(R.layout.frag
             override fun onItemClick(position: Int) { // 아이템 전체 클릭
                 val intent = Intent(requireActivity(), DiscussionDetailActivity::class.java)
                     .putExtra(
-                        POST_KEY, viewModel.postList[position]
+                        POST_KEY, viewModel.postList.value!![position]
                     )
                 startActivity(intent)
             }
@@ -40,14 +41,14 @@ class DiscussionFragment : BaseFragment<FragmentDiscussionBinding>(R.layout.frag
     }
 
     private fun initObserves() {
-        postAdapter.addPost(viewModel.postList)
-//        // postList를 관찰하여 리사이클러뷰 아이템에 추가
-//        viewModel.postList.observe(viewLifecycleOwner) { postList ->
-//            Log.d("RouteFragment", "postList: $postList")
-//            if (!postList.isNullOrEmpty()) {
-//                postAdapter.addPost(postList)
-//            }
-//        }
+//        postAdapter.addPost(viewModel.postList.value ?: emptyList())
+        // postList를 관찰하여 리사이클러뷰 아이템에 추가
+        viewModel.postList.observe(viewLifecycleOwner) { postList ->
+            Log.d("DiscussionFg", "postList: $postList")
+            if (!postList.isNullOrEmpty()) {
+                postAdapter.addPost(postList)
+            }
+        }
     }
 
     companion object {

@@ -115,9 +115,9 @@
                         android:id="@+id/item_post_time_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{post.createAt}"
                         android:textColor="@color/divider"
                         android:textSize="12sp"
+                        fluidDate="@{post.createdAt}"
                         tools:text="n분 전"/>
 
                 </LinearLayout>

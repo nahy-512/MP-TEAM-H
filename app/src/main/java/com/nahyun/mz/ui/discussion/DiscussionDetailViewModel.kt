@@ -5,7 +5,7 @@ import com.nahyun.mz.domain.model.Comment
 import com.nahyun.mz.domain.model.Discussion
 
 class DiscussionDetailViewModel : ViewModel() {
-    var post = Discussion()
+    lateinit var post: Discussion
 
     val commentList = listOf<Comment>(
         Comment(likeCount = 0),

@@ -17,8 +17,8 @@ class DiscussionPostAdapter: RecyclerView.Adapter<DiscussionPostAdapter.ViewHold
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addPost(routeList: List<Discussion>) {
-        this.postList = routeList
+    fun addPost(postList: List<Discussion>) {
+        this.postList = postList
         notifyDataSetChanged()
     }
 

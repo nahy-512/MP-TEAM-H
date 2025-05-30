@@ -1,32 +1,56 @@
 package com.nahyun.mz.ui.discussion
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.nahyun.mz.domain.model.Discussion
+import com.nahyun.mz.utils.TimeConverter
 
 class DiscussionViewModel : ViewModel() {
-    val postList = listOf<Discussion>(
-        Discussion(
-            0,
-            "밈 세상에서 살아남기",
-            "내용입니다",
-            "",
-            10, 100,
-            "코코아",
-            "10분 전"
-        ),
-        Discussion(
-            likeCount = 0,
-            commentCount = 0,
-        ),
-        Discussion(
-            likeCount = 12,
-            commentCount = 0,
-        ),
-        Discussion(
-            likeCount = 0,
-            commentCount = 8,
-        ),
-        Discussion(),
-        Discussion()
-    )
+    private val _postList = MutableLiveData<List<Discussion>>(listOf())
+    val postList: LiveData<List<Discussion>> = _postList
+
+    init {
+        getPostList()
+    }
+
+    private fun getPostList() {
+        val db = Firebase.firestore
+        val tempPostList = mutableListOf<Discussion>()
+
+        db.collection(POST_DB)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Log.d(TAG, "${document.id} => ${document.data}")
+                    val data = document.data
+                    tempPostList.add(
+                        Discussion(
+                            id = document.id.toString().toLong(),
+                            title = data["title"].toString(),
+                            content = data["content"].toString(),
+                            image = data["imageUrl"].toString(),
+                            likeCount = data["likeCount"].toString().toInt(),
+                            commentCount = data["commentCount"].toString().toInt(),
+                            author = data["author"].toString(),
+                            createdAt = TimeConverter.parseTimeStampToLocalDateTime(data["createdAt"] as Timestamp),
+                        )
+                    )
+                }
+                tempPostList.sortByDescending { it.createdAt }
+                _postList.value = tempPostList
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents: ", exception)
+            }
+    }
+
+    companion object {
+        private const val TAG = "DiscussionVM"
+        const val POST_DB = "post"
+    }
 }

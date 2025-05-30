@@ -99,6 +99,7 @@
                         android:id="@+id/time_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        formattedDate="@{post.createdAt}"
                         tools:text="2일 전"
                         android:textSize="12sp"
                         android:textColor="@color/hint"/>
