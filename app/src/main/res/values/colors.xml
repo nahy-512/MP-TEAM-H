@@ -2,10 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
     <color name="main">#FF9747FF</color>
     <color name="secondary">#FFE9E8FF</color>
     <color name="background">#FFF5F3FF</color>
     <color name="hint">#FF777C89</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_200">#FFBB86FC</color>
+    <color name="like">#FF7D3BEE</color>
+    <color name="comment">#FF9AA7FF</color>
+    <color name="divider">#FF878787</color>
+    <color name="tint">#FFD9D9D9</color>
 </resources>

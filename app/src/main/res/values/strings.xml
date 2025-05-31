@@ -9,4 +9,11 @@
     <string name="login">로그인</string>
     <string name="id_hint">아이디를 입력해주세요.</string>
     <string name="pwd_hint">비밀번호를 입력해주세요.</string>
+
+    <!-- 토론방 -->
+    <string name="discussion_title">토론방</string>
+    <string name="post_like_count">공감 %d</string>
+    <string name="post_comment_count">댓글 %d</string>
+    <string name="comment_hint">댓글을 입력해 주세요.</string>
+    <string name="comment_empty">아직 댓글이 없습니다\n첫 댓글을 남겨주세요</string>
 </resources>
