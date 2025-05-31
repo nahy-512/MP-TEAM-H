@@ -198,6 +198,17 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="70dp"
+                    android:visibility="@{viewModel.post.commentCount == 0 ? View.VISIBLE : View.GONE}"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    android:textColor="@color/hint"
+                    android:text="@string/comment_empty"
+                    android:layout_gravity="center_horizontal"/>
+
                 <!-- 댓글 -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/post_comment_rv"

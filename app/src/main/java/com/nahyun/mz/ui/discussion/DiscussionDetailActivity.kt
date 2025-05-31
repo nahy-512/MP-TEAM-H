@@ -45,7 +45,7 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
         binding.postLikeTv.setOnClickListener {
             val post = viewModel.post.value!!
             if (post.authorId == USER_ID) { // 게시글 작성자가 나일 때
-                Toast.makeText(this@DiscussionDetailActivity, "내가 쓴 댓글은 공감할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@DiscussionDetailActivity, "내가 쓴 글은 공감할 수 없습니다.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
