@@ -8,6 +8,7 @@ data class Post(
     val title: String,
     val content: String,
     val imageUrl: String?,
+    val isLike: Boolean = false,
     val likeCount: Int,
     val commentCount: Int,
     val authorId: Int,

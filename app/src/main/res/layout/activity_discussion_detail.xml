@@ -13,9 +13,6 @@
         <variable
             name="author"
             type="com.nahyun.mz.domain.model.User" />
-        <variable
-            name="post"
-            type="com.nahyun.mz.domain.model.Post" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -117,7 +114,7 @@
                                 android:id="@+id/time_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                formattedDate="@{post.createdAt}"
+                                formattedDate="@{viewModel.post.createdAt}"
                                 tools:text="2일 전"
                                 android:textSize="12sp"
                                 android:textColor="@color/hint"/>
@@ -139,7 +136,7 @@
                             android:id="@+id/item_post_title_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{post.title}"
+                            android:text="@{viewModel.post.title}"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -150,7 +147,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:autoLink="web"
-                            android:text="@{post.content}"
+                            android:text="@{viewModel.post.content}"
                             android:textColor="@color/black"
                             android:textSize="12sp"
                             tools:text="내용"/>
@@ -160,8 +157,8 @@
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:layout_marginTop="25dp"
-                            android:visibility="@{post.imageUrl.empty ? View.GONE : View.VISIBLE}"
-                            imageUrl="@{post.imageUrl}"/>
+                            android:visibility="@{viewModel.post.imageUrl.empty ? View.GONE : View.VISIBLE}"
+                            imageUrl="@{viewModel.post.imageUrl}"/>
 
                     </LinearLayout>
 
@@ -178,9 +175,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
-                            android:drawableStart="@drawable/ic_like"
-                            android:visibility="@{post.likeCount > 0 ? View.VISIBLE : View.GONE}"
-                            android:text="@{@string/post_like_count(post.likeCount)}"
+                            android:drawableStart="@{viewModel.post.isLike ? @drawable/ic_like_fill : @drawable/ic_like}"
+                            android:visibility="@{viewModel.post.likeCount > 0 ? View.VISIBLE : View.GONE}"
+                            android:text="@{@string/post_like_count(viewModel.post.likeCount)}"
                             tools:text="공감 1"
                             android:textSize="12sp"
                             android:textColor="@color/like"
@@ -191,8 +188,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_comment"
-                            android:visibility="@{post.commentCount > 0 ? View.VISIBLE : View.GONE}"
-                            android:text="@{@string/post_comment_count(post.commentCount)}"
+                            android:visibility="@{viewModel.post.commentCount > 0 ? View.VISIBLE : View.GONE}"
+                            android:text="@{@string/post_comment_count(viewModel.post.commentCount)}"
                             tools:text="댓글 2"
                             android:textSize="12sp"
                             android:textColor="@color/comment"

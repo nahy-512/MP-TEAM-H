@@ -18,7 +18,7 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
     private val viewModel: DiscussionDetailViewModel by viewModels()
 
     override fun setup() {
-        viewModel.post = intent.getSerializableExtra(POST_KEY) as Post
+        viewModel.initPost(intent.getSerializableExtra(POST_KEY) as Post)
         viewModel.fetchData()
         initClickListeners()
         setAdapter()
@@ -29,20 +29,37 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
 
         binding.apply {
             viewModel = this@DiscussionDetailActivity.viewModel
-            post = this@DiscussionDetailActivity.viewModel.post
             lifecycleOwner = this@DiscussionDetailActivity
         }
+
         initObserves()
     }
 
     private fun initClickListeners() {
+        // 뒤로가기
         binding.discussionDetailBackIv.setOnClickListener {
             finish()
+        }
+
+        // 좋아요
+        binding.postLikeTv.setOnClickListener {
+            val post = viewModel.post.value!!
+            if (post.authorId == USER_ID) { // 게시글 작성자가 나일 때
+                Toast.makeText(this@DiscussionDetailActivity, "내가 쓴 댓글은 공감할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (!post.isLike) {
+                Toast.makeText(this@DiscussionDetailActivity, "이 글을 공감하였습니다.", Toast.LENGTH_SHORT).show()
+                viewModel.togglePostLike()
+            } else {
+                Toast.makeText(this@DiscussionDetailActivity, "이미 공감한 글입니다.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private fun setAdapter() {
-        commentAdapter = DiscussionCommentAdapter(viewModel.post.authorId)
+        commentAdapter = DiscussionCommentAdapter(viewModel.post.value!!.authorId)
         binding.postCommentRv.apply {
             adapter = commentAdapter
             layoutManager = LinearLayoutManager(context)

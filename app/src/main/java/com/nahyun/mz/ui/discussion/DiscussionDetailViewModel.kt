@@ -8,11 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.nahyun.mz.domain.model.Comment
 import com.nahyun.mz.domain.model.Post
 import com.nahyun.mz.domain.model.User
+import com.nahyun.mz.ui.discussion.DiscussionViewModel.Companion.POST_DB
 import com.nahyun.mz.utils.TimeConverter
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
@@ -22,7 +24,11 @@ import kotlin.coroutines.suspendCoroutine
 class DiscussionDetailViewModel : ViewModel() {
     val db = Firebase.firestore
 
-    lateinit var post: Post // 게시글 정보
+    var postId: Long = 0L
+
+    // 게시글 정보
+    private val _post = MutableLiveData<Post>()
+    val post: LiveData<Post> = _post
 
     private val _userList = MutableLiveData<List<User>>(listOf())
     val userList: LiveData<List<User>> = _userList
@@ -35,10 +41,15 @@ class DiscussionDetailViewModel : ViewModel() {
     private val _postSuccess = MutableLiveData<Boolean>()
     val postSuccess: LiveData<Boolean> = _postSuccess
 
+    fun initPost(post: Post) {
+        _post.value = post
+        postId = post.id
+    }
+
     fun fetchData() {
         viewModelScope.launch {
             getUsers()
-            getComments(post.id)
+            getComments(postId)
         }
     }
 
@@ -46,10 +57,11 @@ class DiscussionDetailViewModel : ViewModel() {
     fun postComment() {
         if (commentText.value.isNullOrBlank()) return
         viewModelScope.launch {
-            addComment(post.id, USER_ID, commentText.value ?: "")
+            addComment(postId, USER_ID, commentText.value ?: "")
         }
     }
 
+    // 유저 목록 조회
     private suspend fun getUsers() = suspendCoroutine { continuation ->
         val tempUserList = mutableListOf<User>()
 
@@ -76,6 +88,7 @@ class DiscussionDetailViewModel : ViewModel() {
             }
     }
 
+    // 댓글 목록 조회
     private fun getComments(postId: Long) {
         val tempCommentList = mutableListOf<Comment>()
 
@@ -102,7 +115,45 @@ class DiscussionDetailViewModel : ViewModel() {
                         )
                     }
                     _commentList.value = tempCommentList
+                    updateCommentCount(tempCommentList.size)
                 }
+            }
+    }
+
+    // 게시글 좋아요 여부 변경
+    fun togglePostLike() {
+        val docRef = db.collection(POST_DB).document(postId.toString())
+
+        db.runTransaction { transaction ->
+            // 현재 문서 스냅샷 읽기
+            val snapshot = transaction.get(docRef)
+
+            // 기존 isLike, likeCount 가져오기
+            val currentIsLike = snapshot.getBoolean("isLike") == true
+            val currentCount = (snapshot.getLong("likeCount") ?: 0L).toInt()
+
+            // 새 값 계산
+            val newIsLike = !currentIsLike
+            val newCount = if (newIsLike) currentCount + 1 else currentCount - 1
+
+            // 업데이트
+            transaction.update(
+                docRef, mapOf(
+                    "isLike" to newIsLike,
+                    "likeCount" to newCount
+                )
+            )
+            updateLike(newIsLike, newCount)
+            // 트랜잭션 블록은 아무 값(null 등)을 반환
+            null
+        }
+            .addOnSuccessListener {
+                Log.d(TAG, "포스트 좋아요 토글 성공")
+                // 뷰모델의 suspend getPostList()를 다시 호출하거나,
+                // 아래처럼 특정 포스트만 업데이트할 수도 있습니다.
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "포스트 좋아요 토글 실패", e)
             }
     }
 
@@ -129,8 +180,9 @@ class DiscussionDetailViewModel : ViewModel() {
             }
     }
 
+    // 댓글 좋아요 여부 변경
     fun toggleCommentLike(position: Int) {
-        val docRef = db.collection(COMMENT_DB).document(post.id.toString())
+        val docRef = db.collection(COMMENT_DB).document(postId.toString())
 
         db.runTransaction { transaction ->
             // 문서 스냅샷 가져오기
@@ -162,14 +214,27 @@ class DiscussionDetailViewModel : ViewModel() {
             .addOnSuccessListener {
                 Log.d(TAG, "댓글 좋아요 토글 성공")
                 // 로컬 리스트도 갱신하거나, getComments(postId)를 호출해서 UI 리프레시
-                getComments(post.id)
+                getComments(postId)
             }
             .addOnFailureListener { e ->
                 Log.e(TAG, "댓글 좋아요 토글 실패", e)
             }
     }
 
-    fun getAuthorProfile() = post.getAuthor(_userList.value!!) ?: User()
+    fun getAuthorProfile() = post.value!!.getAuthor(_userList.value!!) ?: User()
+
+    private fun updateLike(isLike: Boolean, likeCount: Int) {
+        _post.postValue(_post.value!!.copy(
+            isLike = isLike,
+            likeCount = likeCount
+        ))
+    }
+
+    private fun updateCommentCount(commentCount: Int) {
+        _post.postValue(_post.value!!.copy(
+            commentCount = commentCount
+        ))
+    }
 
     companion object {
         private const val TAG = "DiscussionDetailVM"

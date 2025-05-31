@@ -46,6 +46,7 @@ class DiscussionViewModel : ViewModel() {
                         title = data["title"].toString(),
                         content = data["content"].toString(),
                         imageUrl = data["imageUrl"] as String?,
+                        isLike = data["isLike"] as? Boolean == true,
                         likeCount = data["likeCount"].toString().toInt(),
                         commentCount = commentCount,
                         authorId = data["userId"].toString().toInt(),

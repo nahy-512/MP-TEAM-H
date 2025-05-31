@@ -3,11 +3,13 @@ package com.nahyun.mz.ui.discussion
 import android.content.Intent
 import android.util.Log
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nahyun.mz.R
 import com.nahyun.mz.databinding.FragmentDiscussionBinding
 import com.nahyun.mz.ui.base.BaseFragment
 import com.nahyun.mz.ui.discussion.adapter.DiscussionPostAdapter
+import kotlinx.coroutines.launch
 
 class DiscussionFragment : BaseFragment<FragmentDiscussionBinding>(R.layout.fragment_discussion) {
 
@@ -20,6 +22,14 @@ class DiscussionFragment : BaseFragment<FragmentDiscussionBinding>(R.layout.frag
             lifecycleOwner = this@DiscussionFragment
         }
         setAdapter()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        lifecycleScope.launch {
+            viewModel.getPostList()
+        }
     }
 
     private fun setAdapter() {
