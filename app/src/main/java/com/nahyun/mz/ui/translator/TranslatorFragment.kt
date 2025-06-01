@@ -27,7 +27,7 @@ class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.frag
         }
 
         // 즐겨찾기 버튼 클릭 리스너
-        binding.ivStar.setOnClickListener {
+        binding.cardResult.ivStar.setOnClickListener {
             val currentWord = viewModel.searchResult.value
             if (currentWord != null) {
                 if (currentWord.isLike) { // 즐겨찾기 해제
