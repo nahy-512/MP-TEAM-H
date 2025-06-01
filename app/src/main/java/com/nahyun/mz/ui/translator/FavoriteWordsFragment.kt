@@ -18,7 +18,6 @@ class FavoriteWordsFragment : BaseFragment<FragmentFavoriteWordsBinding>(R.layou
     private lateinit var adapter: FavoriteWordsAdapter
 
     override fun setup() {
-        // BaseFragment의 setup() 메소드 구현
         setupRecyclerView()
         observeViewModel()
 

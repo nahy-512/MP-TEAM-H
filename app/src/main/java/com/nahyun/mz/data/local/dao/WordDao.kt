@@ -22,4 +22,7 @@ interface WordDao {
 
     @Query("UPDATE ${RoomConstant.Table.WORD} SET isLike = :isLike WHERE id = :wordId")
     fun updateIsLikeById(wordId: Int, isLike: Boolean)
+
+    @Query("SELECT * FROM ${RoomConstant.Table.WORD} WHERE isLike = 1")
+    fun getLikedWords(): List<Word>
 }

@@ -15,7 +15,6 @@ class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.frag
     private var isFavorite = false
 
     override fun setup() {
-        // BaseFragment의 setup() 메소드 구현
         setupListeners()
         observeViewModel()
     }
