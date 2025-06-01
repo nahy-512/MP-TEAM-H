@@ -1,15 +1,19 @@
 package com.nahyun.mz.ui.translator
 
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.nahyun.mz.MZApplication
 import com.nahyun.mz.R
-import com.nahyun.mz.domain.model.Word
 import com.nahyun.mz.databinding.FragmentTranslatorBinding
+import com.nahyun.mz.domain.model.Word
+import com.nahyun.mz.domain.model.WordType
 import com.nahyun.mz.ui.base.BaseFragment
 
 class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.fragment_translator) {
-    private val viewModel: TranslatorViewModel by activityViewModels()
+    private val viewModel: TranslatorViewModel by viewModels {
+        TranslatorViewModelFactory((requireActivity().application as MZApplication).repository)
+    }
+
     private var isFavorite = false
 
     override fun setup() {
@@ -31,12 +35,12 @@ class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.frag
         binding.ivStar.setOnClickListener {
             val currentWord = binding.tvWordTitle.text.toString()
             val meaning = binding.tvWordMeaning.text.toString()
-
+            //TODO: id
             if (currentWord.isNotEmpty() && meaning.isNotEmpty()) {
                 if (isFavorite) {
                     viewModel.removeFromFavorites(currentWord)
                 } else {
-                    viewModel.addToFavorites(Word(currentWord, meaning))
+                    viewModel.addToFavorites(Word(currentWord, meaning, WordType.RECENT))
                 }
                 isFavorite = !isFavorite
                 updateFavoriteIcon()

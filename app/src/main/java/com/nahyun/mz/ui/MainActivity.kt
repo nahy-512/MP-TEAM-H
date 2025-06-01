@@ -1,7 +1,8 @@
-package com.nahyun.mz
+package com.nahyun.mz.ui
 
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.nahyun.mz.R
 import com.nahyun.mz.databinding.ActivityMainBinding
 import com.nahyun.mz.ui.base.BaseActivity
 

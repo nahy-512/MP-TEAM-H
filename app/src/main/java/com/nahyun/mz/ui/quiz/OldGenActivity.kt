@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import com.nahyun.mz.MainActivity
+import com.nahyun.mz.ui.MainActivity
 import com.nahyun.mz.R
 
 /**

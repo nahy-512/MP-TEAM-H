@@ -3,14 +3,13 @@ package com.nahyun.mz.ui.translator
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.nahyun.mz.domain.model.Word
 import com.nahyun.mz.domain.repository.WordRepository
 import kotlinx.coroutines.launch
 
-class TranslatorViewModel : ViewModel() {
-
-    private val repository = WordRepository()
+class TranslatorViewModel(private val repository: WordRepository) : ViewModel() {
 
     private val _searchResult = MutableLiveData<Word?>()
     val searchResult: LiveData<Word?> = _searchResult
@@ -60,5 +59,15 @@ class TranslatorViewModel : ViewModel() {
             val favList = repository.getFavorites()
             _favorites.postValue(favList)
         }
+    }
+}
+
+class TranslatorViewModelFactory(private val repository: WordRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(TranslatorViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return TranslatorViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
