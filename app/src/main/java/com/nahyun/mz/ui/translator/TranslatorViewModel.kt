@@ -54,7 +54,6 @@ class TranslatorViewModel(private val repository: WordRepository) : ViewModel() 
         viewModelScope.launch {
             repository.removeAllFavorites()
             loadFavorites()
-//            _favorites.postValue(emptyList())
         }
     }
 

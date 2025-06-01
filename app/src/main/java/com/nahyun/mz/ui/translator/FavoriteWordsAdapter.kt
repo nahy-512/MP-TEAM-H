@@ -28,8 +28,7 @@ class FavoriteWordsAdapter(private val onRemoveClick: (Word) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(word: Word) {
-            binding.tvWord.text = word.word
-            binding.tvMeaning.text = word.meaning
+            binding.word = word
 
             binding.ivRemove.setOnClickListener {
                 onRemoveClick(word)
