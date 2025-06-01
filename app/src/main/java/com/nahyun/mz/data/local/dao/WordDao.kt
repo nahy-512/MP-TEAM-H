@@ -19,4 +19,7 @@ interface WordDao {
 
     @Query("SELECT * FROM ${RoomConstant.Table.WORD} WHERE word = :searchWord")
     fun getWordBySearch(searchWord: String): Word
+
+    @Query("UPDATE ${RoomConstant.Table.WORD} SET isLike = :isLike WHERE id = :wordId")
+    fun updateIsLikeById(wordId: Int, isLike: Boolean)
 }

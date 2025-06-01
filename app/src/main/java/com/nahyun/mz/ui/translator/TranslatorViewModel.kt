@@ -31,27 +31,24 @@ class TranslatorViewModel(private val repository: WordRepository) : ViewModel() 
         }
     }
 
-    fun addToFavorites(word: Word) {
+    fun addToFavorites(wordId: Int) {
         viewModelScope.launch {
-            repository.addToFavorites(word)
+            repository.updateIsLike(wordId, true)
             loadFavorites()
             _isFavorite.postValue(true)
         }
     }
 
-    fun removeFromFavorites(word: String) {
+    fun removeFromFavorites(wordId: Int) {
         viewModelScope.launch {
-            repository.removeFromFavorites(word)
+            repository.updateIsLike(wordId, false)
             loadFavorites()
             _isFavorite.postValue(false)
         }
     }
 
-    fun checkIsFavorite(word: String) {
-        viewModelScope.launch {
-            val isFav = repository.isWordFavorite(word)
-            _isFavorite.postValue(isFav)
-        }
+    fun checkIsFavorite() {
+        _isFavorite.postValue(_searchResult.value!!.isLike == true)
     }
 
     private fun loadFavorites() {

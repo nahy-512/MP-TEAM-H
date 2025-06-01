@@ -1,18 +1,20 @@
 package com.nahyun.mz.ui.translator
 
-import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nahyun.mz.MZApplication
 import com.nahyun.mz.R
 import com.nahyun.mz.databinding.FragmentFavoriteWordsBinding
 import com.nahyun.mz.ui.base.BaseFragment
 
 class FavoriteWordsFragment : BaseFragment<FragmentFavoriteWordsBinding>(R.layout.fragment_favorite_words) {
 
-    private val viewModel: TranslatorViewModel by activityViewModels()
+    private val viewModel: TranslatorViewModel by activityViewModels {
+        TranslatorViewModelFactory((requireActivity().application as MZApplication).repository)
+    }
+
     private lateinit var adapter: FavoriteWordsAdapter
 
     override fun setup() {
@@ -28,7 +30,7 @@ class FavoriteWordsFragment : BaseFragment<FragmentFavoriteWordsBinding>(R.layou
     private fun setupRecyclerView() {
         adapter = FavoriteWordsAdapter { word ->
             // 즐겨찾기 삭제 기능
-            viewModel.removeFromFavorites(word.word)
+            viewModel.removeFromFavorites(word.id)
         }
 
         binding.rvFavorites.apply {

@@ -1,16 +1,14 @@
 package com.nahyun.mz.ui.translator
 
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.nahyun.mz.MZApplication
 import com.nahyun.mz.R
 import com.nahyun.mz.databinding.FragmentTranslatorBinding
-import com.nahyun.mz.domain.model.Word
-import com.nahyun.mz.domain.model.WordType
 import com.nahyun.mz.ui.base.BaseFragment
 
 class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.fragment_translator) {
-    private val viewModel: TranslatorViewModel by viewModels {
+    private val viewModel: TranslatorViewModel by activityViewModels {
         TranslatorViewModelFactory((requireActivity().application as MZApplication).repository)
     }
 
@@ -33,14 +31,12 @@ class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.frag
 
         // 즐겨찾기 버튼 클릭 리스너
         binding.ivStar.setOnClickListener {
-            val currentWord = binding.tvWordTitle.text.toString()
-            val meaning = binding.tvWordMeaning.text.toString()
-            //TODO: id
-            if (currentWord.isNotEmpty() && meaning.isNotEmpty()) {
-                if (isFavorite) {
-                    viewModel.removeFromFavorites(currentWord)
-                } else {
-                    viewModel.addToFavorites(Word(currentWord, meaning, WordType.RECENT))
+            val currentWord = viewModel.searchResult.value
+            if (currentWord != null) {
+                if (isFavorite) { // 즐겨찾기 해제
+                    viewModel.removeFromFavorites(currentWord.id)
+                } else { // 즐겨찾기
+                    viewModel.addToFavorites(currentWord.id)
                 }
                 isFavorite = !isFavorite
                 updateFavoriteIcon()
@@ -61,7 +57,7 @@ class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.frag
                 binding.tvWordMeaning.text = result.meaning
 
                 // 즐겨찾기 상태 확인 및 아이콘 업데이트
-                viewModel.checkIsFavorite(result.word)
+                viewModel.checkIsFavorite()
             }
         }
 

@@ -15,18 +15,12 @@ class WordRepository(
         wordDao.getWordBySearch(query)
     }
 
-    suspend fun addToFavorites(word: Word) = withContext(Dispatchers.IO) {
-        if (!favoriteWords.any { it.word == word.word }) {
-            favoriteWords.add(word)
-        }
+    suspend fun updateIsLike(wordId: Int, isLike: Boolean) = withContext(Dispatchers.IO) {
+        wordDao.updateIsLikeById(wordId, isLike)
     }
 
     suspend fun removeFromFavorites(word: String) = withContext(Dispatchers.IO) {
         favoriteWords.removeAll { it.word == word }
-    }
-
-    suspend fun isWordFavorite(word: String): Boolean = withContext(Dispatchers.IO) {
-        favoriteWords.any { it.word == word }
     }
 
     suspend fun getFavorites(): List<Word> = withContext(Dispatchers.IO) {
