@@ -18,6 +18,11 @@ class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.frag
     }
 
     private fun setupListeners() {
+        // 사전 보기 버튼 클릭 리스너
+        binding.btnDictionary.setOnClickListener {
+            findNavController().navigate(R.id.action_translatorFragment_to_dictionaryFragment)
+        }
+
         // 검색하기 버튼 클릭 리스너
         binding.btnSearch.setOnClickListener {
             val query = binding.etSearchWord.text.toString().trim()
