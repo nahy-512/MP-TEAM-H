@@ -7,8 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.nahyun.mz.data.local.dao.WordDao
 import com.nahyun.mz.domain.model.Word
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Database(
@@ -19,39 +18,40 @@ import kotlinx.coroutines.launch
 abstract class AppDatabase : RoomDatabase() {
     abstract fun wordDao(): WordDao
 
-    companion object{
+    private class DatabaseCallback(
+        private val scope: CoroutineScope
+    ) : RoomDatabase.Callback() {
+
+        override fun onCreate(db: SupportSQLiteDatabase) {
+            super.onCreate(db)
+            INSTANCE?.let { database ->
+                var wordDao = database.wordDao()
+                scope.launch {
+                    wordDao.insertAll(
+                        Word.initWordList
+                    )
+                }
+            }
+        }
+    }
+
+    companion object {
         private var INSTANCE: AppDatabase? = null
 
-        fun getInstance(context: Context): AppDatabase {
+        fun getInstance(
+            context: Context,
+            scope: CoroutineScope
+        ): AppDatabase {
             return INSTANCE ?: synchronized(AppDatabase::class) {
                 Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
                     RoomConstant.ROOM_DB_NAME
                 )
-                    .addCallback(object : Callback() {
-
-                        val initFoodList = Word.initWordList
-
-                        override fun onCreate(db: SupportSQLiteDatabase) {
-                            super.onCreate(db)
-
-                            GlobalScope.launch(Dispatchers.IO) {
-                                getInstance(context).run {
-                                    // 음식 추가
-                                    wordDao().insertAll(
-                                        initFoodList
-                                    )
-                                }
-                            }
-                        }
-                    })
-                    .build().also { INSTANCE = it }
+                    .addCallback(DatabaseCallback(scope))
+                    .build()
+                    .also { INSTANCE = it }
             }
-        }
-
-        fun destroyInstance(){
-            INSTANCE = null
         }
     }
 }
