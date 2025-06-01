@@ -14,9 +14,6 @@ class TranslatorViewModel(private val repository: WordRepository) : ViewModel() 
     private val _searchResult = MutableLiveData<Word?>()
     val searchResult: LiveData<Word?> = _searchResult
 
-    private val _isFavorite = MutableLiveData<Boolean>()
-    val isFavorite: LiveData<Boolean> = _isFavorite
-
     private val _favorites = MutableLiveData<List<Word>>()
     val favorites: LiveData<List<Word>> = _favorites
 
@@ -34,21 +31,23 @@ class TranslatorViewModel(private val repository: WordRepository) : ViewModel() 
     fun addToFavorites(wordId: Int) {
         viewModelScope.launch {
             repository.updateIsLike(wordId, true)
+            updateWordLike(true)
             loadFavorites()
-            _isFavorite.postValue(true)
         }
     }
 
     fun removeFromFavorites(wordId: Int) {
         viewModelScope.launch {
             repository.updateIsLike(wordId, false)
+            updateWordLike(false)
             loadFavorites()
-            _isFavorite.postValue(false)
         }
     }
 
-    fun checkIsFavorite() {
-        _isFavorite.postValue(_searchResult.value!!.isLike == true)
+    private fun updateWordLike(isLike: Boolean) {
+        _searchResult.value = _searchResult.value!!.copy(
+            isLike = isLike
+        )
     }
 
     private fun loadFavorites() {
