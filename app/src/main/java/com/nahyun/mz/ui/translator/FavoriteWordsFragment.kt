@@ -19,11 +19,20 @@ class FavoriteWordsFragment : BaseFragment<FragmentFavoriteWordsBinding>(R.layou
     override fun setup() {
         binding.viewModel = viewModel
 
+        initClickListeners()
         setupRecyclerView()
         observeViewModel()
+    }
 
+    private fun initClickListeners() {
+        // 뒤로가기
         binding.btnBack.setOnClickListener {
             findNavController().navigateUp()
+        }
+
+        // 모두 삭제
+        binding.tvDeleteAll.setOnClickListener {
+            viewModel.removeAllFavorites()
         }
     }
 

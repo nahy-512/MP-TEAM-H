@@ -25,4 +25,7 @@ interface WordDao {
 
     @Query("SELECT * FROM ${RoomConstant.Table.WORD} WHERE isLike = 1")
     fun getLikedWords(): List<Word>
+
+    @Query("UPDATE ${RoomConstant.Table.WORD} SET isLike = 0 WHERE isLike = 1")
+    fun removeAllFavorites()
 }

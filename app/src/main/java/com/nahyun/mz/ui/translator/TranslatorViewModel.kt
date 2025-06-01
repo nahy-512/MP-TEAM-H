@@ -50,6 +50,14 @@ class TranslatorViewModel(private val repository: WordRepository) : ViewModel() 
         )
     }
 
+    fun removeAllFavorites() {
+        viewModelScope.launch {
+            repository.removeAllFavorites()
+            loadFavorites()
+//            _favorites.postValue(emptyList())
+        }
+    }
+
     private fun loadFavorites() {
         viewModelScope.launch {
             val favList = repository.getFavorites()

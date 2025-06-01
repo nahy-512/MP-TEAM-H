@@ -20,8 +20,8 @@ class WordRepository(
         wordDao.updateIsLikeById(wordId, isLike)
     }
 
-    suspend fun removeFromFavorites(word: String) = withContext(Dispatchers.IO) {
-//        favoriteWords.removeAll { it.word == word }
+    suspend fun removeAllFavorites() = withContext(Dispatchers.IO) {
+        wordDao.removeAllFavorites()
     }
 
     suspend fun getFavorites(): List<Word> = withContext(Dispatchers.IO) {
