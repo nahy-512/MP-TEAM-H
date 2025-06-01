@@ -1,6 +1,5 @@
 package com.nahyun.mz.ui.translator
 
-import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +17,8 @@ class FavoriteWordsFragment : BaseFragment<FragmentFavoriteWordsBinding>(R.layou
     private lateinit var adapter: FavoriteWordsAdapter
 
     override fun setup() {
+        binding.viewModel = viewModel
+
         setupRecyclerView()
         observeViewModel()
 
@@ -41,15 +42,6 @@ class FavoriteWordsFragment : BaseFragment<FragmentFavoriteWordsBinding>(R.layou
     private fun observeViewModel() {
         viewModel.favorites.observe(this) { favorites ->
             adapter.submitList(favorites)
-
-            // 즐겨찾기가 없을 경우 빈 화면 표시
-            if (favorites.isEmpty()) {
-                binding.tvEmptyView.visibility = View.VISIBLE
-                binding.rvFavorites.visibility = View.GONE
-            } else {
-                binding.tvEmptyView.visibility = View.GONE
-                binding.rvFavorites.visibility = View.VISIBLE
-            }
         }
     }
 }

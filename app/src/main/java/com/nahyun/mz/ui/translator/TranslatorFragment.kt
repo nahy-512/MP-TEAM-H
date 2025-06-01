@@ -12,8 +12,6 @@ class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.frag
         TranslatorViewModelFactory((requireActivity().application as MZApplication).repository)
     }
 
-    private var isFavorite = false
-
     override fun setup() {
         setupListeners()
         observeViewModel()
@@ -32,13 +30,11 @@ class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.frag
         binding.ivStar.setOnClickListener {
             val currentWord = viewModel.searchResult.value
             if (currentWord != null) {
-                if (isFavorite) { // 즐겨찾기 해제
+                if (currentWord.isLike) { // 즐겨찾기 해제
                     viewModel.removeFromFavorites(currentWord.id)
                 } else { // 즐겨찾기
                     viewModel.addToFavorites(currentWord.id)
                 }
-                isFavorite = !isFavorite
-                updateFavoriteIcon()
             }
         }
 
@@ -51,26 +47,7 @@ class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.frag
     private fun observeViewModel() {
         // 검색 결과 관찰
         viewModel.searchResult.observe(this) { result ->
-            if (result != null) {
-                binding.tvWordTitle.text = result.word
-                binding.tvWordMeaning.text = result.meaning
-
-                // 즐겨찾기 상태 확인 및 아이콘 업데이트
-                viewModel.checkIsFavorite()
-            }
+            binding.resultWord = result
         }
-
-        // 즐겨찾기 상태 관찰
-        viewModel.isFavorite.observe(this) { favorite ->
-            isFavorite = favorite
-            updateFavoriteIcon()
-        }
-    }
-
-    private fun updateFavoriteIcon() {
-        binding.ivStar.setImageResource(
-            if (isFavorite) R.drawable.ic_star_filled
-            else R.drawable.ic_star_outline
-        )
     }
 }
