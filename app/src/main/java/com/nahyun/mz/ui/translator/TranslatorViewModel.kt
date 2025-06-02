@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.nahyun.mz.domain.model.Word
 import com.nahyun.mz.domain.repository.WordRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class TranslatorViewModel(private val repository: WordRepository) : ViewModel() {
@@ -14,53 +16,42 @@ class TranslatorViewModel(private val repository: WordRepository) : ViewModel() 
     private val _searchResult = MutableLiveData<Word?>()
     val searchResult: LiveData<Word?> = _searchResult
 
-    private val _favorites = MutableLiveData<List<Word>>()
-    val favorites: LiveData<List<Word>> = _favorites
-
-    init {
-        loadFavorites()
-    }
+    val favoriteWords: LiveData<List<Word>> = repository.favoriteWords.asLiveData()
 
     fun searchWord(query: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = repository.searchWord(query)
             _searchResult.postValue(result)
         }
     }
 
-    fun addToFavorites(wordId: Int) {
-        viewModelScope.launch {
-            repository.updateIsLike(wordId, true)
-            updateWordLike(true)
-            loadFavorites()
+    fun toggleSearchWordIsLike() {
+        val currentIsLike = _searchResult.value!!.isLike
+        viewModelScope.launch(Dispatchers.IO) {
+            val updatedRows = repository.updateIsLike(_searchResult.value!!.id, !currentIsLike)
+            if (updatedRows > 0) {
+                updateSearchWordLike(!currentIsLike)
+            }
         }
     }
 
     fun removeFromFavorites(wordId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.updateIsLike(wordId, false)
-            updateWordLike(false)
-            loadFavorites()
+            updateSearchWordLike(false)
         }
     }
 
-    private fun updateWordLike(isLike: Boolean) {
-        _searchResult.value = _searchResult.value!!.copy(
+    private fun updateSearchWordLike(isLike: Boolean) {
+        if (_searchResult.value == null) return
+        _searchResult.postValue(_searchResult.value!!.copy(
             isLike = isLike
-        )
+        ))
     }
 
     fun removeAllFavorites() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.removeAllFavorites()
-            loadFavorites()
-        }
-    }
-
-    private fun loadFavorites() {
-        viewModelScope.launch {
-            val favList = repository.getFavorites()
-            _favorites.postValue(favList)
         }
     }
 }

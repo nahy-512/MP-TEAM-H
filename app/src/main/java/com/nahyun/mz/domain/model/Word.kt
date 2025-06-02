@@ -14,10 +14,9 @@ data class Word(
     val word: String,
     val meaning: String,
     val type: WordType,
-    val isLike: Boolean = false
+    val isLike: Boolean = false,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
 ) {
-    @PrimaryKey(autoGenerate = true) var id: Int = 0
-
     companion object {
         val initWordList = listOf(
             // === 최신 신조어/유행어 (2023-2024) ===

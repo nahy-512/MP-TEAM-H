@@ -5,14 +5,15 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.nahyun.mz.data.local.RoomConstant
 import com.nahyun.mz.domain.model.Word
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WordDao {
     @Insert
-    fun insert(word: Word)
+    suspend fun insert(word: Word)
 
     @Insert
-    fun insertAll(words: List<Word>)
+    suspend fun insertAll(words: List<Word>)
 
     @Query("SELECT * FROM ${RoomConstant.Table.WORD}")
     fun getAllWords(): List<Word>
@@ -21,11 +22,11 @@ interface WordDao {
     fun getWordBySearch(searchWord: String): Word
 
     @Query("UPDATE ${RoomConstant.Table.WORD} SET isLike = :isLike WHERE id = :wordId")
-    fun updateIsLikeById(wordId: Int, isLike: Boolean)
+    suspend fun updateIsLikeById(wordId: Int, isLike: Boolean): Int
 
     @Query("SELECT * FROM ${RoomConstant.Table.WORD} WHERE isLike = 1")
-    fun getLikedWords(): List<Word>
+    fun getLikedWords(): Flow<List<Word>>
 
     @Query("UPDATE ${RoomConstant.Table.WORD} SET isLike = 0 WHERE isLike = 1")
-    fun removeAllFavorites()
+    suspend fun removeAllFavorites()
 }

@@ -49,7 +49,8 @@ class FavoriteWordsFragment : BaseFragment<FragmentFavoriteWordsBinding>(R.layou
     }
 
     private fun observeViewModel() {
-        viewModel.favorites.observe(this) { favorites ->
+        viewModel.favoriteWords.observe(this) { favorites ->
+            binding.favoriteWords = favorites
             adapter.submitList(favorites)
         }
     }

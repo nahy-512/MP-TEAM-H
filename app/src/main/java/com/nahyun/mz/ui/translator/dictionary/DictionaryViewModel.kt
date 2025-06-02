@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.nahyun.mz.domain.model.Word
 import com.nahyun.mz.domain.repository.WordRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DictionaryViewModel(private val repository: WordRepository) : ViewModel() {
@@ -14,18 +15,14 @@ class DictionaryViewModel(private val repository: WordRepository) : ViewModel() 
     private val _wordList = MutableLiveData<List<Word>>()
     val wordList: LiveData<List<Word>> = _wordList
 
-    init {
-        getAllWords()
-    }
-
-    private fun getAllWords() {
-        viewModelScope.launch {
+    fun getAllWords() {
+        viewModelScope.launch(Dispatchers.IO) {
             _wordList.postValue(repository.getAllWord())
         }
     }
 
     fun updateWordLike(wordId: Int, isLike: Boolean) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.updateIsLike(wordId, !isLike)
             getAllWords()
         }

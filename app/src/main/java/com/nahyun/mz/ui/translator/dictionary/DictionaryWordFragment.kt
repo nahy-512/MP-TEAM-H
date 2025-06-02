@@ -24,9 +24,14 @@ class DictionaryWordFragment: BaseFragment<FragmentDictionaryWordBinding>(R.layo
         initObserves()
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        viewModel.getAllWords()
+    }
+
     private fun setAdapter() {
         adapter = DictionaryWordRVAdapter { word ->
-            Log.d("DictionaryFrag", "word: ${word.word}, isLike: ${word.isLike}")
             viewModel.updateWordLike(word.id, word.isLike)
         }
 
@@ -41,7 +46,6 @@ class DictionaryWordFragment: BaseFragment<FragmentDictionaryWordBinding>(R.layo
             val filteredData = viewModel.wordList.value!!.filter {
                 it.type == fragmentType
             }
-            Log.d("filteredData", filteredData.toString())
             // 데이터 추가
             adapter.submitList(filteredData)
         }
