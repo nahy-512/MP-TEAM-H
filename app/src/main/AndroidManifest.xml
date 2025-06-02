@@ -41,6 +41,8 @@
         <!-- 토론방 관련 화면 -->
         <activity android:name=".ui.discussion.DiscussionDetailActivity"
             android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.discussion.DiscussionAddActivity"
+            android:windowSoftInputMode="adjustResize"/>
 
         <!-- 트렌드 화면 관련 추가 -->
         <activity android:name=".ui.trend.CategoryDetailActivity" android:exported="false" />

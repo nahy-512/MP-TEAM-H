@@ -21,6 +21,8 @@ class DiscussionFragment : BaseFragment<FragmentDiscussionBinding>(R.layout.frag
             viewModel = this@DiscussionFragment.viewModel
             lifecycleOwner = this@DiscussionFragment
         }
+        setProgressBarColor()
+        initClickListeners()
         setAdapter()
     }
 
@@ -28,7 +30,27 @@ class DiscussionFragment : BaseFragment<FragmentDiscussionBinding>(R.layout.frag
         super.onResume()
 
         lifecycleScope.launch {
-            viewModel.getPostList()
+            viewModel.loadPosts()
+        }
+    }
+
+    private fun setProgressBarColor() {
+        val progressColor = resources.getColor(R.color.main, null)
+        binding.progressBar.indeterminateDrawable.setColorFilter(progressColor, android.graphics.PorterDuff.Mode.SRC_IN)
+    }
+
+    private fun initClickListeners() {
+        // 게시글 등록
+        binding.addPostBtn.setOnClickListener {
+            val postSize = viewModel.postList.value?.size
+            Log.d(TAG, "postSize: $postSize")
+            startActivity(
+                Intent(
+                    requireActivity(), DiscussionAddActivity::class.java
+                ).apply {
+                    putExtra(POST_SIZE_KEY, postSize)
+                }
+            )
         }
     }
 
@@ -61,6 +83,8 @@ class DiscussionFragment : BaseFragment<FragmentDiscussionBinding>(R.layout.frag
     }
 
     companion object {
+        const val TAG = "DiscussionFrag"
         const val POST_KEY = "post_key"
+        const val POST_SIZE_KEY = "post_size_key"
     }
 }

@@ -363,9 +363,10 @@
                             android:background="@drawable/quiz_circle_white">
 
                             <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
                                 android:layout_gravity="center"
+                                app:tint="#7B00FF"
                                 android:src="@drawable/ic_send" />
                         </FrameLayout>
 

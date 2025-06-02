@@ -12,6 +12,7 @@
 
     <!-- 토론방 -->
     <string name="discussion_title">토론방</string>
+    <string name="discussion_post_add">글 작성</string>
     <string name="post_like_count">공감 %d</string>
     <string name="post_comment_count">댓글 %d</string>
     <string name="comment_hint">댓글을 입력해 주세요.</string>
@@ -20,4 +21,6 @@
     <!-- 번역기 -->
     <string name="word_recent">신조어</string>
     <string name="word_old">옛말</string>
+    <string name="discussion_post_content_hint">내용을 입력해주세요.</string>
+    <string name="discussion_post_title_hint">제목을 입력해주세요.</string>
 </resources>
