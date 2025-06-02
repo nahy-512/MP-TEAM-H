@@ -5,6 +5,7 @@
 
     <data>
         <import type="com.nahyun.mz.domain.model.WordType"/>
+        <import type="com.nahyun.mz.utils.TimeConverter"/>
         <variable
             name="word"
             type="com.nahyun.mz.domain.model.Word" />
@@ -42,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textSize="14sp"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@color/hint"
                 android:text="@{word.meaning}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -61,6 +62,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tvTypeTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
@@ -72,6 +74,18 @@
                 tools:text="@string/word_recent"
                 app:layout_constraintTop_toBottomOf="@id/tvMeaning"
                 app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/tint"
+                android:textSize="12sp"
+                android:text="@{TimeConverter.parseLongToDateText(word.updatedAt)}"
+                tools:text="25.06.02 16:39"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvTypeTag"
+                app:layout_constraintBottom_toBottomOf="@id/tvTypeTag"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

@@ -1,5 +1,6 @@
 package com.nahyun.mz.ui.translator
 
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.nahyun.mz.MZApplication
@@ -23,7 +24,7 @@ class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.frag
             findNavController().navigate(R.id.action_translatorFragment_to_dictionaryFragment)
         }
 
-        // 검색하기 버튼 클릭 리스너
+        // 검색하기(번역) 버튼 클릭 리스너
         binding.btnSearch.setOnClickListener {
             val query = binding.etSearchWord.text.toString().trim()
             if (query.isNotEmpty()) {
@@ -48,6 +49,9 @@ class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.frag
         // 검색 결과 관찰
         viewModel.searchResult.observe(this) { result ->
             binding.resultWord = result
+            if (result == null) {
+                Toast.makeText(requireActivity(), "번역 결과가 없습니다.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
