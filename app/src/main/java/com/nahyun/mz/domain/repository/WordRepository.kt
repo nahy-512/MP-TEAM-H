@@ -13,7 +13,8 @@ class WordRepository(
 
     fun searchWord(query: String): Word = wordDao.getWordBySearch(query)
 
-    suspend fun updateIsLike(wordId: Int, isLike: Boolean) = wordDao.updateIsLikeById(wordId, isLike)
+    suspend fun updateIsLike(wordId: Int, isLike: Boolean, currentTime: Long = System.currentTimeMillis()) =
+        wordDao.updateIsLikeById(wordId, isLike, currentTime)
 
     suspend fun removeAllFavorites() = wordDao.removeAllFavorites()
 }

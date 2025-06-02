@@ -21,10 +21,10 @@ interface WordDao {
     @Query("SELECT * FROM ${RoomConstant.Table.WORD} WHERE word = :searchWord")
     fun getWordBySearch(searchWord: String): Word
 
-    @Query("UPDATE ${RoomConstant.Table.WORD} SET isLike = :isLike WHERE id = :wordId")
-    suspend fun updateIsLikeById(wordId: Int, isLike: Boolean): Int
+    @Query("UPDATE ${RoomConstant.Table.WORD} SET isLike = :isLike, updatedAt = :likedDate WHERE id = :wordId")
+    suspend fun updateIsLikeById(wordId: Int, isLike: Boolean, likedDate: Long): Int
 
-    @Query("SELECT * FROM ${RoomConstant.Table.WORD} WHERE isLike = 1")
+    @Query("SELECT * FROM ${RoomConstant.Table.WORD} WHERE isLike = 1 ORDER BY updatedAt DESC")
     fun getLikedWords(): Flow<List<Word>>
 
     @Query("UPDATE ${RoomConstant.Table.WORD} SET isLike = 0 WHERE isLike = 1")

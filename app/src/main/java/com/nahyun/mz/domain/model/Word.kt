@@ -15,6 +15,7 @@ data class Word(
     val meaning: String,
     val type: WordType,
     val isLike: Boolean = false,
+    val updatedAt: Long = 0L, // 좋아요 한 날짜 저장
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 ) {
     companion object {

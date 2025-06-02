@@ -1,5 +1,6 @@
 package com.nahyun.mz.ui.translator
 
+import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,6 +51,7 @@ class FavoriteWordsFragment : BaseFragment<FragmentFavoriteWordsBinding>(R.layou
 
     private fun observeViewModel() {
         viewModel.favoriteWords.observe(this) { favorites ->
+            Log.d("FavoriteWordsFrag", "좋아요 목록: $favorites")
             binding.favoriteWords = favorites
             adapter.submitList(favorites)
         }
