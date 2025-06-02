@@ -11,6 +11,7 @@ import com.nahyun.mz.domain.model.Comment
 import com.nahyun.mz.domain.model.Post
 import com.nahyun.mz.domain.model.User
 import com.nahyun.mz.domain.repository.DiscussionRepository
+import com.nahyun.mz.domain.repository.DiscussionRepository.Companion.USER_ID
 import com.nahyun.mz.utils.TimeConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -118,6 +119,5 @@ class DiscussionDetailViewModel(
 
     companion object {
         private const val TAG = "DiscussionDetailVM"
-        const val USER_ID = 1
     }
 }

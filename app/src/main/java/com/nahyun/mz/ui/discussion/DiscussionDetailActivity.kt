@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.nahyun.mz.R
 import com.nahyun.mz.databinding.ActivityDiscussionDetailBinding
 import com.nahyun.mz.domain.model.Post
+import com.nahyun.mz.domain.repository.DiscussionRepository.Companion.USER_ID
 import com.nahyun.mz.ui.base.BaseActivity
-import com.nahyun.mz.ui.discussion.DiscussionDetailViewModel.Companion.USER_ID
 import com.nahyun.mz.ui.discussion.DiscussionFragment.Companion.POST_KEY
 import com.nahyun.mz.ui.discussion.adapter.DiscussionCommentAdapter
 

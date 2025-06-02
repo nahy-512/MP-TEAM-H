@@ -54,6 +54,34 @@ class DiscussionRepository {
             .addOnFailureListener { e -> cont.resumeWithException(e) }
     }
 
+    // 게시글 등록
+    suspend fun addPost(
+        postId: Long,
+        title: String,
+        content: String
+    ): Result<Unit> {
+        return try {
+            val postData = mapOf(
+                "title" to title,
+                "content" to content,
+                "imageUrl" to "",
+                "isLike" to false,
+                "likeCount" to 0,
+                "userId" to USER_ID,
+                "author" to USER_NICKNAME,
+                "createdAt" to Timestamp.now()
+            )
+            db.collection(POST_DB)
+                .document(postId.toString())
+                .set(postData)
+                .await()
+
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     // 유저 목록 조회
     suspend fun fetchUsers(): List<User> = suspendCoroutine { cont ->
         db.collection(USER_DB).get()
@@ -171,5 +199,9 @@ class DiscussionRepository {
         private const val POST_DB = "post"
         private const val COMMENT_DB = "comment"
         private const val USER_DB = "user"
+
+
+        const val USER_ID = 1
+        const val USER_NICKNAME = "코코아"
     }
 }
