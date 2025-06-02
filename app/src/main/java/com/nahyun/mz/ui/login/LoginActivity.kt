@@ -1,7 +1,7 @@
 package com.nahyun.mz.ui.login
 
 import android.content.Intent
-import com.nahyun.mz.MainActivity
+import com.nahyun.mz.ui.MainActivity
 import com.nahyun.mz.R
 import com.nahyun.mz.databinding.ActivityLoginBinding
 import com.nahyun.mz.ui.base.BaseActivity

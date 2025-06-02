@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="resultWord"
+            type="com.nahyun.mz.domain.model.Word" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,11 +26,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/btnDictionary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/main"
+            android:text="사전 보기"
+            android:paddingHorizontal="8dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintTop_toTopOf="@id/tvAppTitle"
+            app:layout_constraintBottom_toBottomOf="@id/tvAppTitle"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="2dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
             app:layout_constraintTop_toBottomOf="@id/tvAppTitle">
@@ -40,53 +60,15 @@
                 android:textSize="16sp" />
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
+        <include
             android:id="@+id/cardResult"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="2dp"
-            app:layout_constraintTop_toBottomOf="@id/cardSearch">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/tvWordTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@id/ivStar"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="캠밥" />
-
-                <TextView
-                    android:id="@+id/tvWordMeaning"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvWordTitle"
-                    tools:text="캠핑 밥의 줄임말로, 캠핑장에서 먹는 식사를 의미하는 신조어." />
-
-                <ImageView
-                    android:id="@+id/ivStar"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_star_outline"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="4dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+            android:layout_marginHorizontal="2dp"
+            layout="@layout/item_word"
+            app:word="@{resultWord}"
+            app:layout_constraintTop_toBottomOf="@id/cardSearch"/>
 
         <Button
             android:id="@+id/btnSearch"

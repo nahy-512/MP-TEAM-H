@@ -1,135 +1,20 @@
 package com.nahyun.mz.domain.repository
 
+import com.nahyun.mz.data.local.dao.WordDao
 import com.nahyun.mz.domain.model.Word
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
 
-class WordRepository {
+class WordRepository(
+    private val wordDao: WordDao
+) {
+    val favoriteWords: Flow<List<Word>> = wordDao.getLikedWords()
 
-    // 메모리에 즐겨찾기 저장
-    private val favoriteWords = mutableListOf<Word>()
+    fun getAllWord(): List<Word> = wordDao.getAllWords()
 
-    private val predefinedWords = mapOf(
-        // === 최신 신조어/유행어 (2023-2024) ===
-        "갬성" to "감성을 뜻하는 신조어. 감성을 독특하게 표현한 말이다.",
-        "군싹" to "군침이 싹 도는 모습을 줄인 신조어.",
-        "머선129" to "\'무슨 일이야\'를 특이하게 표현한 신조어.",
-        "별다줄" to "별걸 다 줄인다의 줄임말. 기존 용어를 과도하게 축약하는 현상을 빗댄 신조어.",
-        "어쩔티비" to "상대방의 말에 반응할 때 '어쩌라고'라는 의미로 사용되는 신조어.",
-        "캠밥" to "캠핑 밥의 줄임말로, 캠핑장에서 먹는 식사를 의미하는 신조어.",
-        "갓생" to "갓(God) + 인생. 완벽하고 멋진 하루를 보내는 것을 뜻하는 신조어.",
-        "킹받네" to "킹(King) + 받다. 매우 화나다는 뜻의 신조어.",
-        "JMT" to "존맛탱의 줄임말. '정말 맛있다'는 의미의 신조어.",
-        "TMI" to "Too Much Information의 줄임말. 불필요한 정보라는 뜻.",
-        "아점" to "아침 + 점심. 아침과 점심을 겸한 식사를 뜻하는 신조어.",
-        "점저" to "점심 + 저녁. 점심과 저녁을 겸한 식사를 뜻하는 신조어.",
-        "뇸뇸" to "냠냠의 변형. 맛있게 먹는 모습을 표현하는 신조어.",
-        "웅니" to "\'언니\' 의 귀여운 버전. Kpop 여자 가수 장원영이 사용하며 유행했다",
-        "실화냐" to "'실화입니까?'의 줄임말. 믿기 어려운 상황에 사용.",
-        "억텐" to "억지로 텐션을 올리는 것. 억지 + 텐션의 합성어.",
-        "무야호" to "신나고 즐거운 기분을 표현하는 감탄사. 무한도전 짤에서 시작됐다.",
-        "존못" to "'존나 못생겼다'의 줄임말. 매우 못생겼다는 뜻.",
-        "존잘" to "'존나 잘생겼다'의 줄임말. 매우 잘생겼다는 뜻.",
-        "존예" to "'존나 예쁘다'의 줄임말. 매우 예쁘다는 뜻.",
-        "헬창" to "헬스장에서 운동을 열심히 하는 사람을 뜻하는 신조어.주로 헬스에 집착하는 사람들을 얕잡아 부를 때 사용한다.",
-        "극혐" to "'극도로 혐오스럽다'의 줄임말.",
-        "캘박" to "\'캘린더 박제\'의 의미. 일정을 확정할 때 쓰인다.",
-        "좋댓구알" to "'좋아요, 댓글, 구독, 알림설정'의 줄임말. 유튜브 관련 신조어.",
-        "셀카" to "셀프 카메라의 줄임말. 자신을 촬영하는 것.",
-        "브이로그" to "Video + Blog. 영상으로 만든 개인 일기.",
-        "먹스타그램" to "먹방 + 인스타그램. 음식 사진을 올리는 것.",
-        "손민수" to "누군가를 따라한다는 의미로 사용된다. 주로 \'나 장원영 손민수함.\'(장원영이 사용한 물건을 따라 샀다.)와 같이 사용된다. 웹툰 치즈인더트랩의 등장인물 손민수에서 따온 신조어다.",
-        "프로불참러" to "프로 + 불참러. 모임에 자주 불참하는 사람.",
-        "프로자만러" to "프로 + 자만러. 자만심이 강한 사람.",
-        "취린이" to "취업 + 어린이. 취업 초보자를 뜻하는 신조어.",
-        "금린이" to "금융 + 어린이. 금융 초보자를 뜻하는 신조어.",
-        "헬린이" to "헬스 + 어린이. 운동 초보자를 뜻하는 신조어.",
-        "요린이" to "요리 + 어린이. 요리 초보자를 뜻하는 신조어.",
-        "운린이" to "운전 + 어린이. 운전 초보자를 뜻하는 신조어.",
-        "갓벽" to "갓(God) + 완벽. 완벽함을 강조하는 신조어.",
-        "레게노" to "레전드 + 설명 불가. 설명할 수 없을 정도로 대단한 것.",
-        "넘사벽" to "넘을 수 없는 사차원의 벽. 절대 따라할 수 없는 실력.",
-        "워라밸" to "Work + Life + Balance. 일과 삶의 균형.",
-        "소확행" to "소소하지만 확실한 행복. 작은 행복을 뜻함.",
-        "YOLO" to "You Only Live Once. 인생은 한 번뿐이라는 뜻.",
-        "인싸" to "인사이더. 사교적이고 인기 많은 사람.",
-        "아싸" to "아웃사이더. 혼자 있는 것을 좋아하는 사람.",
-        "핵인싸" to "핵 + 인싸. 매우 사교적인 사람.",
-        "핵아싸" to "핵 + 아싸. 매우 내향적인 사람.",
-        "만반잘부" to "만나서 반가워, 잘 부탁해의 줄임말.",
-        "팩트폭격" to "사실로 공격하는 것. 정확한 지적.",
-        "2000원 비싸졌다." to "반박하고싶은 비판을 들어 상처받았다는 의미. 팩트폭격-> 순살됐다->2000원 비싸졌다. 순으로 진화한 신조어이다.",
-        "호불호" to "좋아함과 싫어함. 취향이 갈리는 것. \'호불호가 갈린다\'와 같이 사용된다.",
-        "극혐주의" to "극도로 혐오스러우니 주의하라는 뜻.",
-        "스압주의" to "스크롤 압박 주의. 긴 글에 대한 경고.",
-        "댕댕이" to "강아지를 귀엽게 부르는 신조어. 멍멍이를 흘겨쓰면 댕댕이와 비슷하게 보여 유래된 신조어이다.",
-        "냥이" to "고양이를 귀엽게 부르는 신조어.",
-        "멍멍이" to "강아지를 귀엽게 부르는 신조어.",
-        "꿀잼" to "꿀 + 재미. 매우 재미있다는 뜻.",
-        "노잼" to "노 + 재미. 재미없다는 뜻.",
-        "핵꿀잼" to "핵 + 꿀 + 재미. 엄청 재미있다는 뜻.",
-        "핵노잼" to "핵 + 노 + 재미. 엄청 재미없다는 뜻.",
-        "느좋" to "\'느낌 좋다\'의 줄임말 보통 \"느좋남\", \"느좋녀\", \"느좋카페\", \"느좋 코디\"와 같은 식으로 사용.",
-        "싹싹김치" to "긍정적인 감정을 표현하는 인터넷 신조어. 주로 기분이 좋거나 일이 잘 풀릴 때 사용",
-        "호랑해" to "\'세븐틴(13인조 Kpop 남자 그룹) 멤버 호시 + 사랑해\'의 의미",
+    fun searchWord(query: String): Word = wordDao.getWordBySearch(query)
 
-        // === 옛날말/고어 ===
-        "가막소" to "옛말로 감옥을 의미하는 단어.",
-        "갈치" to "옛말로 가르침, 가르치다를 의미하는 단어.",
-        "꿰다" to "옛말로 바느질하다를 의미하는 단어.",
-        "나랏말싸미" to "우리나라 말이라는 뜻의 옛말. 훈민정음 서문에 등장.",
-        "어엿비" to "불쌍히, 가엾게 여기다는 뜻의 옛말.",
-        "아으" to "옛말로 '아'를 뜻하는 감탄사.",
-        "나리" to "옛말로 높은 분을 부르는 존칭어.",
-        "소인" to "옛말로 자신을 낮춰 부르는 말.",
-        "아뢰오" to "옛말로 '말씀드립니다'의 뜻.",
-        "하오체" to "옛말 높임 문체 중 하나. '~하오' 형태.",
-        "수라간" to "궁중의 임금님 식사를 준비하는 곳.",
-        "내관" to "궁중의 환관을 뜻하는 옛말.",
-        "마마" to "왕이나 왕비를 높여 부르는 옛말.",
-        "전하" to "왕을 높여 부르는 존칭어.",
-        "중전" to "왕비를 뜻하는 옛말.",
-        "세자" to "왕의 후계자인 아들을 뜻하는 옛말.",
-        "공주" to "왕의 딸을 뜻하는 옛말.",
-        "대감" to "높은 벼슬아치를 부르는 옛말.",
-        "나으리" to "양반을 높여 부르는 옛말.",
-        "서방님" to "아내가 남편을 부르는 옛말.",
-        "안사람" to "부인, 아내를 뜻하는 옛말.",
-        "바깥양반" to "남편을 뜻하는 옛말.",
-        "애기씨" to "젊은 처녀를 부르는 옛말.",
-        "도련님" to "양반집 아들을 부르는 옛말.",
-        "아가씨" to "젊은 여성을 부르는 옛말.",
-        "어른" to "나이 많은 분, 어른을 뜻하는 옛말.",
-        "아이고" to "감탄사. 옛날부터 사용된 표현.",
-        "어머나" to "놀라거나 감탄할 때 쓰는 옛말.",
-        "맙소사" to "'맙소서'의 변형. 놀랄 때 쓰는 옛말.",
-        "얼마나" to "정도를 묻는 의문사. 옛말에서 유래.",
-        "그리하니" to "'그러니까'의 옛말 형태.",
-        "참말로" to "'정말로'의 옛말 형태.",
-        "진실로" to "'정말로'의 옛말 형태."
-        )
+    suspend fun updateIsLike(wordId: Int, isLike: Boolean, currentTime: Long = System.currentTimeMillis()) =
+        wordDao.updateIsLikeById(wordId, isLike, currentTime)
 
-    suspend fun searchWord(query: String): Word? = withContext(Dispatchers.IO) {
-        predefinedWords[query]?.let { meaning ->
-            Word(query, meaning)
-        }
-    }
-
-    suspend fun addToFavorites(word: Word) = withContext(Dispatchers.IO) {
-        if (!favoriteWords.any { it.word == word.word }) {
-            favoriteWords.add(word)
-        }
-    }
-
-    suspend fun removeFromFavorites(word: String) = withContext(Dispatchers.IO) {
-        favoriteWords.removeAll { it.word == word }
-    }
-
-    suspend fun isWordFavorite(word: String): Boolean = withContext(Dispatchers.IO) {
-        favoriteWords.any { it.word == word }
-    }
-
-    suspend fun getFavorites(): List<Word> = withContext(Dispatchers.IO) {
-        favoriteWords.toList()
-    }
+    suspend fun removeAllFavorites() = wordDao.removeAllFavorites()
 }

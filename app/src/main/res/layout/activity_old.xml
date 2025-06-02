@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F4F4FF">
+    android:background="#F4F4FF"
+    android:fitsSystemWindows="true">
 
     <!-- 헤더 -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginTop="22dp"
         android:background="@drawable/quiz_old_header">
 
         <!-- 헤더 제목 -->

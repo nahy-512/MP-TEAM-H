@@ -1,25 +1,30 @@
 package com.nahyun.mz.ui.translator
 
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.nahyun.mz.MZApplication
 import com.nahyun.mz.R
-import com.nahyun.mz.domain.model.Word
 import com.nahyun.mz.databinding.FragmentTranslatorBinding
 import com.nahyun.mz.ui.base.BaseFragment
 
 class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.fragment_translator) {
-    private val viewModel: TranslatorViewModel by activityViewModels()
-    private var isFavorite = false
+    private val viewModel: TranslatorViewModel by activityViewModels {
+        TranslatorViewModelFactory((requireActivity().application as MZApplication).repository)
+    }
 
     override fun setup() {
-        // BaseFragment의 setup() 메소드 구현
         setupListeners()
         observeViewModel()
     }
 
     private fun setupListeners() {
-        // 검색하기 버튼 클릭 리스너
+        // 사전 보기 버튼 클릭 리스너
+        binding.btnDictionary.setOnClickListener {
+            findNavController().navigate(R.id.action_translatorFragment_to_dictionaryFragment)
+        }
+
+        // 검색하기(번역) 버튼 클릭 리스너
         binding.btnSearch.setOnClickListener {
             val query = binding.etSearchWord.text.toString().trim()
             if (query.isNotEmpty()) {
@@ -28,19 +33,10 @@ class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.frag
         }
 
         // 즐겨찾기 버튼 클릭 리스너
-        binding.ivStar.setOnClickListener {
-            val currentWord = binding.tvWordTitle.text.toString()
-            val meaning = binding.tvWordMeaning.text.toString()
-
-            if (currentWord.isNotEmpty() && meaning.isNotEmpty()) {
-                if (isFavorite) {
-                    viewModel.removeFromFavorites(currentWord)
-                } else {
-                    viewModel.addToFavorites(Word(currentWord, meaning))
-                }
-                isFavorite = !isFavorite
-                updateFavoriteIcon()
-            }
+        binding.cardResult.ivStar.setOnClickListener {
+            val currentWord = viewModel.searchResult.value
+            if (currentWord == null) return@setOnClickListener
+            viewModel.toggleSearchWordIsLike() // 즐겨찾기/해제
         }
 
         // 즐겨찾는 목록 보기 버튼 클릭 리스너
@@ -52,26 +48,10 @@ class TranslatorFragment : BaseFragment<FragmentTranslatorBinding>(R.layout.frag
     private fun observeViewModel() {
         // 검색 결과 관찰
         viewModel.searchResult.observe(this) { result ->
-            if (result != null) {
-                binding.tvWordTitle.text = result.word
-                binding.tvWordMeaning.text = result.meaning
-
-                // 즐겨찾기 상태 확인 및 아이콘 업데이트
-                viewModel.checkIsFavorite(result.word)
+            binding.resultWord = result
+            if (result == null) {
+                Toast.makeText(requireActivity(), "번역 결과가 없습니다.", Toast.LENGTH_SHORT).show()
             }
         }
-
-        // 즐겨찾기 상태 관찰
-        viewModel.isFavorite.observe(this) { favorite ->
-            isFavorite = favorite
-            updateFavoriteIcon()
-        }
-    }
-
-    private fun updateFavoriteIcon() {
-        binding.ivStar.setImageResource(
-            if (isFavorite) R.drawable.ic_star_filled
-            else R.drawable.ic_star_outline
-        )
     }
 }

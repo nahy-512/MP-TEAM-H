@@ -15,7 +15,7 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import com.nahyun.mz.MainActivity
+import com.nahyun.mz.ui.MainActivity
 
 /**
  * MZ 퀴즈 결과를 보여주는 액티비티

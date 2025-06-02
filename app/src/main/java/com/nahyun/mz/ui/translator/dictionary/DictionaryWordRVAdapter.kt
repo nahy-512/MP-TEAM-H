@@ -1,4 +1,4 @@
-package com.nahyun.mz.ui.translator
+package com.nahyun.mz.ui.translator.dictionary
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,32 +6,33 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nahyun.mz.domain.model.Word
-import com.nahyun.mz.databinding.ItemFavoriteWordBinding
+import com.nahyun.mz.databinding.ItemWordBinding
 
-class FavoriteWordsAdapter(private val onRemoveClick: (Word) -> Unit) :
-    ListAdapter<Word, FavoriteWordsAdapter.FavoriteViewHolder>(WordDiffCallback()) {
+class DictionaryWordRVAdapter(private val onFavoriteClick: (Word) -> Unit) :
+    ListAdapter<Word, DictionaryWordRVAdapter.DictionaryViewHolder>(WordDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
-        val binding = ItemFavoriteWordBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DictionaryViewHolder {
+        val binding = ItemWordBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return FavoriteViewHolder(binding)
+        return DictionaryViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DictionaryViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    inner class FavoriteViewHolder(private val binding: ItemFavoriteWordBinding) :
+    inner class DictionaryViewHolder(private val binding: ItemWordBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(word: Word) {
             binding.word = word
 
-            binding.ivRemove.setOnClickListener {
-                onRemoveClick(word)
+            // 즐겨찾기
+            binding.ivStar.setOnClickListener {
+                onFavoriteClick(word)
             }
         }
     }

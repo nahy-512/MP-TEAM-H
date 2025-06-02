@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
     alias(libs.plugins.kapt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -60,11 +61,13 @@ dependencies {
     // Glide
     implementation("com.github.bumptech.glide:glide:4.14.2")
 
+    // Navigation
     implementation(libs.bundles.navigation)
+
     // Room Database
-    // implementation(libs.androidx.room.runtime)
-    // implementation(libs.androidx.room.ktx)
-    // kapt(libs.androidx.room.compiler)
+     implementation(libs.androidx.room.runtime)
+     implementation(libs.androidx.room.ktx)
+     ksp(libs.androidx.room.compiler)
 
     // ViewModel & LiveData
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
