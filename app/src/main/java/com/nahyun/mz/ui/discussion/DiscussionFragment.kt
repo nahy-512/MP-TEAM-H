@@ -21,6 +21,7 @@ class DiscussionFragment : BaseFragment<FragmentDiscussionBinding>(R.layout.frag
             viewModel = this@DiscussionFragment.viewModel
             lifecycleOwner = this@DiscussionFragment
         }
+        setProgressBarColor()
         initClickListeners()
         setAdapter()
     }
@@ -31,6 +32,11 @@ class DiscussionFragment : BaseFragment<FragmentDiscussionBinding>(R.layout.frag
         lifecycleScope.launch {
             viewModel.loadPosts()
         }
+    }
+
+    private fun setProgressBarColor() {
+        val progressColor = resources.getColor(R.color.main, null)
+        binding.progressBar.indeterminateDrawable.setColorFilter(progressColor, android.graphics.PorterDuff.Mode.SRC_IN)
     }
 
     private fun initClickListeners() {
