@@ -28,7 +28,7 @@ class DiscussionFragment : BaseFragment<FragmentDiscussionBinding>(R.layout.frag
         super.onResume()
 
         lifecycleScope.launch {
-            viewModel.getPostList()
+            viewModel.loadPosts()
         }
     }
 
