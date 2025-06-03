@@ -29,6 +29,12 @@ object BindingAdapter {
     }
 
     @JvmStatic
+    @BindingAdapter("imgRes")
+    fun loadResImage(view: ImageView, resId: Int) {
+        view.setImageResource(resId)
+    }
+
+    @JvmStatic
     @BindingAdapter("profileImage")
     fun loadProfileImage(view: ImageView, imageUrl: String?) {
         val defaultImage = R.drawable.ic_profile_default

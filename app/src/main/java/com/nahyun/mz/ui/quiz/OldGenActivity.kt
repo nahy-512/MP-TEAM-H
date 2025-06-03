@@ -6,16 +6,26 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.GridLayoutManager
 import com.nahyun.mz.ui.MainActivity
 import com.nahyun.mz.R
+import com.nahyun.mz.databinding.ActivityOldBinding
+import com.nahyun.mz.domain.model.Meme
+import com.nahyun.mz.domain.model.MemeType
+import com.nahyun.mz.domain.model.exploreMemeList
+import com.nahyun.mz.domain.model.oldMemeList
+import com.nahyun.mz.ui.base.BaseActivity
 
 /**
  * 옛날 세대(Old Generation) 관련 콘텐츠를 보여주는 활동
  * 이 화면에서는 과거의 노래, 문화 등을 소개
  */
-class OldGenActivity : AppCompatActivity() {
+class OldGenActivity : BaseActivity<ActivityOldBinding>(R.layout.activity_old) {
+
+    override fun setup() {
+        setMemeAdapter()
+    }
 
     /**
      * 노래 정보를 담는 데이터 클래스
@@ -48,8 +58,6 @@ class OldGenActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // activity_old.xml 레이아웃 파일을 화면에 표시
-        setContentView(R.layout.activity_old)
 
         // 시간 여행 버튼 (메인 화면으로 돌아가는 버튼) 찾기
         val timeTravelButton = findViewById<LinearLayout>(R.id.btn_go_present)
@@ -66,85 +74,39 @@ class OldGenActivity : AppCompatActivity() {
             finish()
         }
 
-        // 레전드 세대 카드들의 클릭 이벤트 설정
-        setupOldCardClicks()
-
         // 랜덤 노래 표시 및 클릭 이벤트 설정
         setupRandomSongs()
     }
 
+    private fun setMemeAdapter() {
+        val memeAdapter = MemeAdapter(oldMemeList)
+        binding.rvMeme.apply {
+            adapter = memeAdapter
+            layoutManager = GridLayoutManager(this@OldGenActivity, 2)
+        }
+        memeAdapter.setMemeClickListener(object : MemeAdapter.MyItemClickListener {
+            override fun onItemClick(meme: Meme) { // 게시글 상세 화면으로 이동
+                navigateToPostDetail(meme.id)
+            }
+        })
+    }
+
     /**
-     * 옛날 세대 관련 카드들의 클릭 이벤트를 설정하는 함수
-     * 각 카드를 클릭하면 해당하는 상세 정보 화면으로 이동
+     * 특정 게시글 상세 화면으로 이동하는 함수
+     * @param category: 카테고리 (explore)
+     * @param postId: 특정 게시글 ID (explore1, explore2, ...)
      */
-    private fun setupOldCardClicks() {
-        // 첫 번째 옛날 세대 카드 (삐삐 용어 모음)
-        findViewById<CardView>(R.id.card_old_1).setOnClickListener {
-            // PostDetailActivity로 이동하는 인텐트 생성
-            val intent = Intent(this, PostDetailActivity::class.java)
-            // 카테고리를 "old"로 설정
-            intent.putExtra("CATEGORY", "old")
-            // 특정 게시물 ID 설정 (old1)
-            intent.putExtra("POST_ID", "old1")
-            // 상세 화면으로 이동
-            startActivity(intent)
-        }
+    private fun navigateToPostDetail(postId: Int) {
+        val memeTag = MemeType.OLD.categoryName
+        // 다음 화면으로 이동하기 위한 Intent 생성
+        val intent = Intent(this, PostDetailActivity::class.java)
 
-        // 두 번째 옛날 세대 카드 (화장 관련)
-        findViewById<CardView>(R.id.card_old_2).setOnClickListener {
-            val intent = Intent(this, PostDetailActivity::class.java)
-            intent.putExtra("CATEGORY", "old")
-            intent.putExtra("POST_ID", "old2")
-            startActivity(intent)
-        }
+        // 이동할 화면에 데이터(CATEGORY와 POST_ID)를 전달
+        intent.putExtra("CATEGORY", memeTag)
+        intent.putExtra("POST_ID", "${memeTag}${postId}")
 
-        // 세 번째 옛날 세대 카드 (추억의 아이템)
-        findViewById<CardView>(R.id.card_old_3).setOnClickListener {
-            val intent = Intent(this, PostDetailActivity::class.java)
-            intent.putExtra("CATEGORY", "old")
-            intent.putExtra("POST_ID", "old3")
-            startActivity(intent)
-        }
-
-        // 네 번째 옛날 세대 카드 (패션 관련)
-        findViewById<CardView>(R.id.card_old_4).setOnClickListener {
-            val intent = Intent(this, PostDetailActivity::class.java)
-            intent.putExtra("CATEGORY", "old")
-            intent.putExtra("POST_ID", "old4")
-            startActivity(intent)
-        }
-
-        // 다섯 번째 옛날 세대 카드 (예능 모음)
-        findViewById<CardView>(R.id.card_old_5).setOnClickListener {
-            val intent = Intent(this, PostDetailActivity::class.java)
-            intent.putExtra("CATEGORY", "old")
-            intent.putExtra("POST_ID", "old5")
-            startActivity(intent)
-        }
-
-        // 여섯 번째 옛날 세대 카드 (써니로 보는 80년대)
-        findViewById<CardView>(R.id.card_old_6).setOnClickListener {
-            val intent = Intent(this, PostDetailActivity::class.java)
-            intent.putExtra("CATEGORY", "old")
-            intent.putExtra("POST_ID", "old6")
-            startActivity(intent)
-        }
-
-        // 일곱 번째 옛날 세대 카드 (하두리)
-        findViewById<CardView>(R.id.card_old_7).setOnClickListener {
-            val intent = Intent(this, PostDetailActivity::class.java)
-            intent.putExtra("CATEGORY", "old")
-            intent.putExtra("POST_ID", "old7")
-            startActivity(intent)
-        }
-
-        // 여덟 번째 옛날 세대 카드 (네이트온 버튼)
-        findViewById<CardView>(R.id.card_old_8).setOnClickListener {
-            val intent = Intent(this, PostDetailActivity::class.java)
-            intent.putExtra("CATEGORY", "old")
-            intent.putExtra("POST_ID", "old8")
-            startActivity(intent)
-        }
+        // 실제로 화면 이동 실행
+        startActivity(intent)
     }
 
     /**
