@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.nahyun.mz.domain.model.WordType"/>
+        <variable
+            name="word"
+            type="com.nahyun.mz.domain.model.Word" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="220dp"
+        android:padding="8dp"
+        android:backgroundTint="@color/tooltip_bg"
+        android:background="@drawable/bg_radius_4">
+
+        <TextView
+            android:id="@+id/tvWord"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:text="@{word.word}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="캠밥" />
+
+        <TextView
+            android:id="@+id/tvMeaning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"
+            android:textColor="@color/hint"
+            android:text="@{word.meaning}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvWord"
+            tools:text="캠핑 밥의 줄임말로, 캠핑장에서 먹는 식사를 의미하는 신조어." />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="4dp"
+            android:background="@drawable/bg_radius_4"
+            android:text="@{word.type == WordType.RECENT ? @string/word_recent : @string/word_old}"
+            android:textColor="@color/main"
+            android:textSize="12sp"
+            tools:text="@string/word_recent"
+            app:layout_constraintTop_toBottomOf="@id/tvMeaning"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
