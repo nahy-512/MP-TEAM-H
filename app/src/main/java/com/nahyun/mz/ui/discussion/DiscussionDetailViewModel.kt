@@ -4,20 +4,24 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.nahyun.mz.domain.model.Comment
 import com.nahyun.mz.domain.model.Post
 import com.nahyun.mz.domain.model.User
+import com.nahyun.mz.domain.model.Word
 import com.nahyun.mz.domain.repository.DiscussionRepository
 import com.nahyun.mz.domain.repository.DiscussionRepository.Companion.USER_ID
+import com.nahyun.mz.domain.repository.WordRepository
 import com.nahyun.mz.utils.TimeConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DiscussionDetailViewModel(
-    private val repository: DiscussionRepository = DiscussionRepository()
+    private val wordRepository: WordRepository,
+    private val repository: DiscussionRepository = DiscussionRepository(),
 ) : ViewModel() {
 
     var postId: Long = 0L
@@ -39,6 +43,10 @@ class DiscussionDetailViewModel(
     fun initPost(post: Post) {
         _post.value = post
         postId = post.id
+    }
+
+    suspend fun getWord(selectedText: String): Word? {
+        return wordRepository.searchWord(selectedText)
     }
 
     fun fetchData() {
@@ -119,5 +127,15 @@ class DiscussionDetailViewModel(
 
     companion object {
         private const val TAG = "DiscussionDetailVM"
+    }
+}
+
+class DiscussionDetailViewModelFactory(private val wordRepository: WordRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(DiscussionDetailViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return DiscussionDetailViewModel(wordRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

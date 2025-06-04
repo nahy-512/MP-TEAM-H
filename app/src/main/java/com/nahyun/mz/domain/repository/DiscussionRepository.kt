@@ -201,7 +201,7 @@ class DiscussionRepository {
         private const val USER_DB = "user"
 
 
-        const val USER_ID = 1
-        const val USER_NICKNAME = "코코아"
+        const val USER_ID = 5
+        const val USER_NICKNAME = "H햄"
     }
 }

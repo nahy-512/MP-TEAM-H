@@ -1,21 +1,39 @@
 package com.nahyun.mz.ui.discussion
 
+import android.view.ActionMode
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.PopupWindow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nahyun.mz.MZApplication
 import com.nahyun.mz.R
 import com.nahyun.mz.databinding.ActivityDiscussionDetailBinding
+import com.nahyun.mz.databinding.ItemTooltipBinding
 import com.nahyun.mz.domain.model.Post
+import com.nahyun.mz.domain.model.Word
 import com.nahyun.mz.domain.repository.DiscussionRepository.Companion.USER_ID
 import com.nahyun.mz.ui.base.BaseActivity
 import com.nahyun.mz.ui.discussion.DiscussionFragment.Companion.POST_KEY
 import com.nahyun.mz.ui.discussion.adapter.DiscussionCommentAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R.layout.activity_discussion_detail) {
 
     private lateinit var commentAdapter: DiscussionCommentAdapter
-    private val viewModel: DiscussionDetailViewModel by viewModels()
+    private val viewModel: DiscussionDetailViewModel by viewModels() {
+        DiscussionDetailViewModelFactory((application as MZApplication).repository)
+    }
 
     override fun setup() {
         viewModel.initPost(intent.getSerializableExtra(POST_KEY) as Post)
@@ -56,6 +74,77 @@ class DiscussionDetailActivity : BaseActivity<ActivityDiscussionDetailBinding>(R
                 Toast.makeText(this@DiscussionDetailActivity, "이미 공감한 글입니다.", Toast.LENGTH_SHORT).show()
             }
         }
+
+        // 텍스트 선택
+        setTranslateActionMode(binding.postTitleTv)
+        setTranslateActionMode(binding.postContentTv)
+    }
+
+    private fun setTranslateActionMode(textView: TextView) {
+        textView.customSelectionActionModeCallback = object : ActionMode.Callback {
+            override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+                // 기본 메뉴 제거
+                menu.clear()
+                // 커스텀 메뉴 추가
+                menu.add(0, 1, 0, "번역하기")
+                return true
+            }
+
+            override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean = false
+
+            override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+                if (item.itemId == 1) {
+                    val selectedText = getSelectedText(textView)
+                    if (selectedText.isNullOrBlank()) return false
+
+                    lifecycleScope.launch {
+                        val word = withContext(Dispatchers.IO) {
+                            viewModel.getWord(selectedText)
+                        }
+
+                        if (word != null) {
+                            showWordTooltip(word, textView)
+                        } else {
+                            Toast.makeText(this@DiscussionDetailActivity, "등록된 단어가 없습니다", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    mode.finish()
+                    return true
+                }
+                return false
+            }
+
+            override fun onDestroyActionMode(mode: ActionMode) {}
+        }
+    }
+
+    fun getSelectedText(textView: TextView): String? {
+        val start = textView.selectionStart
+        val end = textView.selectionEnd
+        return if (start >= 0 && end >= 0 && start != end) {
+            textView.text.subSequence(start, end).toString()
+        } else null
+    }
+
+    fun showWordTooltip(word: Word, anchorView: View) {
+        val tpBinding = DataBindingUtil.inflate<ItemTooltipBinding>(
+            LayoutInflater.from(this),
+            R.layout.item_tooltip,
+            null,
+            false
+        )
+        tpBinding.word = word
+
+        val popupWindow = PopupWindow(
+            tpBinding.root,  // 바인딩의 root view를 전달
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        popupWindow.elevation = 10f
+        popupWindow.showAsDropDown(anchorView)
     }
 
     private fun setAdapter() {
