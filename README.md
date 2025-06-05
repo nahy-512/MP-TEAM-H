@@ -113,6 +113,17 @@ https://github.com/user-attachments/assets/9cf38e4e-98e0-41ec-97b8-37fc2a783f9d
   </tr>
 </table>
 
+## 💥 Data Storage Flow
+<RoomDB 단어 저장 흐름>
+|아키텍처 다이어그램|프로젝트 적용 내용|
+|:--:|:--:|
+|<img src="https://github.com/user-attachments/assets/3aaa8732-8bfa-420d-ac7a-761fc82a7562" />| <img src="https://github.com/user-attachments/assets/e1aaefb3-a101-43c1-93ff-436d0607acad">
+
+<즐겨찾기 한 단어 확인>
+|Database Inspector|App|
+|:--:|:--:|
+|<img src="https://github.com/user-attachments/assets/151811f9-3e14-45c3-a153-651e3e9cd84e" />| <img width=375 src="https://github.com/user-attachments/assets/3bf157be-9907-44b9-9bac-d2587e261641">
+
 ## 📂 Package
 ```
 📦 mz
